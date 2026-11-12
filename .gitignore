@@ -1,0 +1,15 @@
+node_modules/
+dist/
+dist-granted/
+test-results/
+playwright-report/
+coverage/
+*.log
+.DS_Store
+test-env/.venv/
+test-env/.server.pid
+test-env/server.log
+__pycache__/
+dist.next/
+dist.old/
+sluice-*.zip

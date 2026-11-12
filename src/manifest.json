@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Sluice — WebTransport and MoQ DevTools",
+  "short_name": "Sluice",
+  "version": "0.9.1",
+  "description": "Monitor, test and replay the WebTransport and MoQ traffic of your web app, in DevTools. No proxy, no server.",
+  "homepage_url": "https://github.com/pzanella/sluice",
+  "minimum_chrome_version": "119",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "devtools_page": "panel/devtools.html",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "action": {
+    "default_title": "Sluice",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    },
+    "default_popup": "panel/popup.html"
+  },
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "http://[::1]/*"
+  ]
+}

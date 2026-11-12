@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x01",
+  "spec_section": "7.2",
+  "vectors": [
+    {
+      "id": "datagram-4byte-payload",
+      "description": "object datagram with 4-byte payload",
+      "hex": "010102008004deadbeef",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "object_status": "0",
+        "payload_length": "4",
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-zero-payload",
+      "description": "object datagram with zero-length payload and Normal status",
+      "hex": "0105406432400000",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "5",
+        "group_id": "100",
+        "object_id": "50",
+        "publisher_priority": "64",
+        "object_status": "0",
+        "payload_length": "0",
+        "payload_hex": ""
+      }
+    },
+    {
+      "id": "datagram-end-of-group",
+      "description": "object datagram signaling end of group",
+      "hex": "01010005800003",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "object_status": "3",
+        "payload_length": "0",
+        "payload_hex": ""
+      }
+    },
+    {
+      "id": "datagram-end-of-track-and-group",
+      "description": "object datagram signaling end of track and group (status 0x4)",
+      "hex": "01010a00800004",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "1",
+        "group_id": "10",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "object_status": "4",
+        "payload_length": "0",
+        "payload_hex": ""
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated datagram — missing object_id",
+      "hex": "010102",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading object_id"
+    }
+  ]
+}

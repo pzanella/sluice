@@ -1,0 +1,28 @@
+name: Bug
+description: Something does not work as the docs say.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not paste a recording, a token or a URL with a query here. They can hold private data. For a security problem, see SECURITY.md.
+  - type: input
+    id: version
+    attributes: { label: Sluice and Chrome versions, placeholder: 'Sluice 0.9.1, Chrome 156' }
+    validations: { required: true }
+  - type: dropdown
+    id: protocol
+    attributes:
+      label: Protocol of the app
+      options: [moq-lite, IETF MoQT, Other WebTransport, Not sure]
+  - type: textarea
+    id: steps
+    attributes: { label: Steps, description: 'What you did, one step a line. The local demo (`pnpm env:up`) is best, if it shows the bug.' }
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: What you expected }
+    validations: { required: true }
+  - type: textarea
+    id: actual
+    attributes: { label: What happened, description: Errors of the page console and of the panel help. }
+    validations: { required: true }

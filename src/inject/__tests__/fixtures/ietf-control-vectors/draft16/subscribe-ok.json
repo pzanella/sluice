@@ -1,0 +1,116 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "subscribe_ok",
+  "message_type_id": "0x04",
+  "spec_section": "9.10",
+  "vectors": [
+    {
+      "id": "minimal",
+      "description": "minimal SUBSCRIBE_OK with no parameters",
+      "hex": "040003010000",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "0",
+        "parameters": []
+      }
+    },
+    {
+      "id": "with-largest-object",
+      "description": "SUBSCRIBE_OK with LARGEST_OBJECT parameter (group=10, object=3)",
+      "hex": "04000701050109020a03",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "5",
+        "parameters": [
+          {
+            "name": "largest_object",
+            "type": "0x9",
+            "value": {
+              "group": "10",
+              "object": "3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-expires",
+      "description": "SUBSCRIBE_OK with EXPIRES parameter set to 30ms",
+      "hex": "040005010001081e",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "0",
+        "parameters": [
+          {
+            "name": "expires",
+            "type": "0x8",
+            "value": "30"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-delivery-timeout",
+      "description": "SUBSCRIBE_OK with DELIVERY_TIMEOUT parameter set to 5000ms",
+      "hex": "040006010001025388",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "0",
+        "parameters": [
+          {
+            "name": "delivery_timeout",
+            "type": "0x2",
+            "value": "5000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-track-extensions",
+      "description": "SUBSCRIBE_OK with track extension DEFAULT_PUBLISHER_PRIORITY=128",
+      "hex": "0400060105000e4080",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "5",
+        "parameters": [],
+        "track_extensions": [
+          {
+            "name": "default_publisher_priority",
+            "type": "0xe",
+            "value": "128"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-params-and-extensions",
+      "description": "SUBSCRIBE_OK with EXPIRES parameter and track extension MAX_CACHE_DURATION=10000ms",
+      "hex": "040009010001086710046710",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "0",
+        "parameters": [
+          {
+            "name": "expires",
+            "type": "0x8",
+            "value": "10000"
+          }
+        ],
+        "track_extensions": [
+          {
+            "name": "max_cache_duration",
+            "type": "0x4",
+            "value": "10000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated SUBSCRIBE_OK — missing track_alias",
+      "hex": "04000301",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading track_alias"
+    }
+  ]
+}

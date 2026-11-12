@@ -1,0 +1,11 @@
+name: Idea
+description: Something Sluice could do.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes: { label: What you want to test or see, description: The problem first, then the solution you have in mind. }
+    validations: { required: true }
+  - type: textarea
+    id: today
+    attributes: { label: What you do today without it }

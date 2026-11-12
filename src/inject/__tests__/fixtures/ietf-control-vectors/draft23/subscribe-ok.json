@@ -1,0 +1,194 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "subscribe_ok",
+  "message_type_id": "0x04",
+  "spec_section": "9.7",
+  "vectors": [
+    {
+      "id": "minimal",
+      "description": "minimal SUBSCRIBE_OK with no parameters and no properties",
+      "hex": "04020000",
+      "decoded": {
+        "track_alias": "0",
+        "parameters": [],
+        "track_properties": []
+      }
+    },
+    {
+      "id": "with-largest-object",
+      "description": "SUBSCRIBE_OK with LARGEST_OBJECT parameter (group=10, object=3)",
+      "hex": "04050501090a03",
+      "decoded": {
+        "track_alias": "5",
+        "parameters": [
+          {
+            "name": "largest_object",
+            "type": "0x9",
+            "value": {
+              "group": "10",
+              "object": "3"
+            }
+          }
+        ],
+        "track_properties": []
+      }
+    },
+    {
+      "id": "with-expires",
+      "description": "SUBSCRIBE_OK with EXPIRES parameter set to 30ms",
+      "hex": "04040001081e",
+      "decoded": {
+        "track_alias": "0",
+        "parameters": [
+          {
+            "name": "expires",
+            "type": "0x8",
+            "value": "30"
+          }
+        ],
+        "track_properties": []
+      }
+    },
+    {
+      "id": "with-track-properties",
+      "description": "SUBSCRIBE_OK with track properties: OBJECT_DELIVERY_TIMEOUT=5000ms, DEFAULT_PUBLISHER_PRIORITY=128",
+      "hex": "040800000293880c8080",
+      "decoded": {
+        "track_alias": "0",
+        "parameters": [],
+        "track_properties": [
+          {
+            "name": "object_delivery_timeout",
+            "type": "0x2",
+            "value": "5000"
+          },
+          {
+            "name": "default_publisher_priority",
+            "type": "0xe",
+            "value": "128"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-subgroup-delivery-timeout-property",
+      "description": "SUBSCRIBE_OK with SUBGROUP_DELIVERY_TIMEOUT track property (10000ms, type 0x06)",
+      "hex": "0405000006a710",
+      "decoded": {
+        "track_alias": "0",
+        "parameters": [],
+        "track_properties": [
+          {
+            "name": "subgroup_delivery_timeout",
+            "type": "0x6",
+            "value": "10000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-max-cache-duration",
+      "description": "SUBSCRIBE_OK with track property MAX_CACHE_DURATION=60000ms",
+      "hex": "0406000004c0ea60",
+      "decoded": {
+        "track_alias": "0",
+        "parameters": [],
+        "track_properties": [
+          {
+            "name": "max_cache_duration",
+            "type": "0x4",
+            "value": "60000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-group-order-property",
+      "description": "SUBSCRIBE_OK with track property DEFAULT_PUBLISHER_GROUP_ORDER (descending=2)",
+      "hex": "040400002202",
+      "decoded": {
+        "track_alias": "0",
+        "parameters": [],
+        "track_properties": [
+          {
+            "name": "default_publisher_group_order",
+            "type": "0x22",
+            "value": "2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-dynamic-groups",
+      "description": "SUBSCRIBE_OK with track property DYNAMIC_GROUPS=1",
+      "hex": "040400003001",
+      "decoded": {
+        "track_alias": "0",
+        "parameters": [],
+        "track_properties": [
+          {
+            "name": "dynamic_groups",
+            "type": "0x30",
+            "value": "1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-immutable-properties",
+      "description": "SUBSCRIBE_OK with an IMMUTABLE_PROPERTIES (0x0B) Track Property holding OBJECT_DELIVERY_TIMEOUT=42: 0b 02 02 2a. Section 10.7: Immutable Properties \"contains a sequence of Key-Value-Pairs (see Figure 4) that are themselves Track or Object Properties, respectively\", so the value renders as a nested list",
+      "hex": "040600000b02022a",
+      "decoded": {
+        "track_alias": "0",
+        "parameters": [],
+        "track_properties": [
+          {
+            "name": "immutable_properties",
+            "type": "0xb",
+            "value": [
+              {
+                "name": "object_delivery_timeout",
+                "type": "0x2",
+                "value": "42"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-params-and-properties",
+      "description": "SUBSCRIBE_OK with EXPIRES parameter (30ms) and track properties: OBJECT_DELIVERY_TIMEOUT=5000ms, DEFAULT_PUBLISHER_PRIORITY=64",
+      "hex": "04090501081e0293880c40",
+      "decoded": {
+        "track_alias": "5",
+        "parameters": [
+          {
+            "name": "expires",
+            "type": "0x8",
+            "value": "30"
+          }
+        ],
+        "track_properties": [
+          {
+            "name": "object_delivery_timeout",
+            "type": "0x2",
+            "value": "5000"
+          },
+          {
+            "name": "default_publisher_priority",
+            "type": "0xe",
+            "value": "64"
+          }
+        ]
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated SUBSCRIBE_OK — missing track_alias",
+      "hex": "0403",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading track_alias"
+    }
+  ]
+}

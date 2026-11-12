@@ -1,0 +1,224 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x00",
+  "spec_section": "9.2",
+  "vectors": [
+    {
+      "id": "datagram-4byte-payload",
+      "description": "object datagram (type 0x00, no extensions) with 4-byte payload",
+      "hex": "0001020080deadbeef",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "stream_type_id": "0",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-zero-payload",
+      "description": "object datagram with zero-length payload",
+      "hex": "000540643240",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "stream_type_id": "0",
+        "track_alias": "5",
+        "group_id": "100",
+        "object_id": "50",
+        "publisher_priority": "64",
+        "payload_hex": ""
+      }
+    },
+    {
+      "id": "datagram-with-extensions",
+      "description": "object datagram (type 0x01, with extensions) with 2-byte payload",
+      "hex": "010102008002102adead",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "stream_type_id": "1",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "extension_headers_length": "2",
+        "extension_headers": [
+          {
+            "type": "0x10",
+            "value": "42"
+          }
+        ],
+        "payload_hex": "dead"
+      }
+    },
+    {
+      "id": "datagram-end-of-group",
+      "description": "object datagram (type 0x02, end of group, no extensions) with 2-byte payload",
+      "hex": "0201030580cafe",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "stream_type_id": "2",
+        "track_alias": "1",
+        "group_id": "3",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "end_of_group": true,
+        "payload_hex": "cafe"
+      }
+    },
+    {
+      "id": "datagram-eog-with-extensions",
+      "description": "object datagram (type 0x03, end of group, with extensions) with 2-byte payload",
+      "hex": "030103058002102acafe",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "stream_type_id": "3",
+        "track_alias": "1",
+        "group_id": "3",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "end_of_group": true,
+        "extension_headers_length": "2",
+        "extension_headers": [
+          {
+            "type": "0x10",
+            "value": "42"
+          }
+        ],
+        "payload_hex": "cafe"
+      }
+    },
+    {
+      "id": "datagram-status-end-of-group",
+      "description": "object datagram status (type 0x04, no extensions) signaling end of group",
+      "hex": "040100058003",
+      "decoded": {
+        "stream_type": "object_datagram_status",
+        "stream_type_id": "4",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "object_status": "3"
+      }
+    },
+    {
+      "id": "datagram-status-with-extensions",
+      "description": "object datagram status (type 0x05, with extensions) signaling end of group",
+      "hex": "050100058002102a03",
+      "decoded": {
+        "stream_type": "object_datagram_status",
+        "stream_type_id": "5",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "extension_headers_length": "2",
+        "extension_headers": [
+          {
+            "type": "0x10",
+            "value": "42"
+          }
+        ],
+        "object_status": "3"
+      }
+    },
+    {
+      "id": "datagram-status-not-exist",
+      "description": "object datagram status (type 0x04) signaling object does not exist (status=1)",
+      "hex": "040102038001",
+      "decoded": {
+        "stream_type": "object_datagram_status",
+        "stream_type_id": "4",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "3",
+        "publisher_priority": "128",
+        "object_status": "1"
+      }
+    },
+    {
+      "id": "datagram-status-end-of-track",
+      "description": "object datagram status (type 0x04) signaling end of track (status=4)",
+      "hex": "04010a008004",
+      "decoded": {
+        "stream_type": "object_datagram_status",
+        "stream_type_id": "4",
+        "track_alias": "1",
+        "group_id": "10",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "object_status": "4"
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated datagram — missing object_id",
+      "hex": "000102",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading object_id"
+    },
+    {
+      "id": "datagram-prior-group-id-gap-exceeds-group-id",
+      "description": "object datagram (type 0x01: extensions present), Group 1, carrying Prior Group ID Gap 2 (Extension Header Type 0x40). Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" The gap is larger than the Group ID, so the track is malformed (Section 2.5), which an endpoint detects from this datagram alone",
+      "hex": "010101008003404002deadbeef",
+      "error": "invalid_value",
+      "error_detail": "Prior Group ID Gap 2 is larger than Group ID 1",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "datagram-prior-group-id-gap-twice",
+      "description": "object datagram (type 0x01: extensions present), Group 5, carrying Prior Group ID Gap 2 and 3 (Extension Header Type 0x40 twice). Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" This draft does not say whether an Object may carry 0x40 more than once, or which value is that Object's when it does (Section 9.2.1.2: \"Object Extension Headers are serialized as Key-Value-Pairs\"; Section 12: \"List which headers can be repeated in the table.\"). The condition needs more than one Object, and a datagram carries one, so the track is not malformed",
+      "hex": "010105008006404002404003deadbeef",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "stream_type_id": "1",
+        "track_alias": "1",
+        "group_id": "5",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "extension_headers_length": "6",
+        "extension_headers": [
+          {
+            "type": "0x40",
+            "value": "2"
+          },
+          {
+            "type": "0x40",
+            "value": "3"
+          }
+        ],
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-prior-group-id-gap-second-exceeds-group-id",
+      "description": "object datagram (type 0x01: extensions present), Group 5, carrying Prior Group ID Gap 2 and then 6 (Extension Header Type 0x40 twice). Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" This draft does not say whether an Object may carry 0x40 more than once, or which value is that Object's when it does (Section 9.2.1.2: \"Object Extension Headers are serialized as Key-Value-Pairs\"; Section 12: \"List which headers can be repeated in the table.\"). Taking 6 as the Object's makes its gap larger than the Group ID and taking 2 does not, so whether the track is malformed is ambiguous; only an Object whose every value is larger than the Group ID has a gap larger than it under every reading, and the decoder does not refuse this",
+      "hex": "010105008006404002404006deadbeef",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "stream_type_id": "1",
+        "track_alias": "1",
+        "group_id": "5",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "extension_headers_length": "6",
+        "extension_headers": [
+          {
+            "type": "0x40",
+            "value": "2"
+          },
+          {
+            "type": "0x40",
+            "value": "6"
+          }
+        ],
+        "payload_hex": "deadbeef"
+      }
+    }
+  ]
+}

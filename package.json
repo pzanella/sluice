@@ -1,0 +1,48 @@
+{
+  "name": "sluice",
+  "version": "0.9.1",
+  "private": true,
+  "description": "Chrome DevTools extension to monitor, test and replay the WebTransport and MoQ traffic of a web app, in the page, with no proxy.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --watch",
+    "package": "node scripts/package.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "env:up": "node test-env/env.mjs up",
+    "env:down": "node test-env/env.mjs down",
+    "lint": "eslint .",
+    "docs:shots": "SHOTS=1 playwright test tests/e2e/docs-shots.spec.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.65.0",
+    "@types/chrome": "0.3.7",
+    "@types/node": "^26.6.6",
+    "eslint": "10.14.0",
+    "globals": "17.14.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1",
+    "vite": "8.3.7",
+    "vitest": "5.1.0"
+  },
+  "dependencies": {
+    "preact": "11.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pzanella/sluice.git"
+  },
+  "homepage": "https://github.com/pzanella/sluice#readme",
+  "bugs": {
+    "url": "https://github.com/pzanella/sluice/issues"
+  }
+}

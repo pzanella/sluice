@@ -1,0 +1,86 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "subscribe_ok",
+  "message_type_id": "0x04",
+  "spec_section": "9.8",
+  "vectors": [
+    {
+      "id": "no-content",
+      "description": "minimal SUBSCRIBE_OK with no content",
+      "hex": "040006010000010000",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "0",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "0",
+        "parameters": []
+      }
+    },
+    {
+      "id": "content-exists",
+      "description": "SUBSCRIBE_OK with content exists and largest location",
+      "hex": "04000801050001010a0300",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "5",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "1",
+        "largest_location": {
+          "group": "10",
+          "object": "3"
+        },
+        "parameters": []
+      }
+    },
+    {
+      "id": "descending-with-expiry",
+      "description": "SUBSCRIBE_OK with descending group order and expiry of 30",
+      "hex": "04000601001e020000",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "0",
+        "expires": "30",
+        "group_order": "2",
+        "content_exists": "0",
+        "parameters": []
+      }
+    },
+    {
+      "id": "with-params",
+      "description": "SUBSCRIBE_OK with DELIVERY_TIMEOUT and MAX_CACHE_DURATION parameters",
+      "hex": "04001001050001010a03020253880480007530",
+      "decoded": {
+        "request_id": "1",
+        "track_alias": "5",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "1",
+        "largest_location": {
+          "group": "10",
+          "object": "3"
+        },
+        "parameters": [
+          {
+            "name": "delivery_timeout",
+            "type": "0x2",
+            "value": "5000"
+          },
+          {
+            "name": "max_cache_duration",
+            "type": "0x4",
+            "value": "30000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated SUBSCRIBE_OK — missing group_order and beyond",
+      "hex": "040003010000",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading group_order"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+# A new push to a pull request stops the run of the push before.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # A step can hang with no output, and a run then waits for hours. A normal run takes about 5 minutes.
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 22, cache: pnpm }
+      - uses: actions/setup-python@v7
+        with: { python-version: '3.13', cache: pip, cache-dependency-path: test-env/requirements.txt }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint && pnpm typecheck && pnpm test
+      - run: pnpm build && pnpm package && unzip -tq sluice-*.zip
+      - uses: actions/upload-artifact@v7
+        with: { name: sluice-zip, path: 'sluice-*.zip', retention-days: 14 }
+      # The package mirror of the runner fails at times (DNS) and apt then hangs. The runner image already has the libraries of
+      # Chrome and xvfb, so with no apt in 4 minutes, install only the browser.
+      - name: Install Chromium
+        run: timeout 240 npx playwright install --with-deps chromium || npx playwright install chromium
+      - run: xvfb-run -a pnpm e2e

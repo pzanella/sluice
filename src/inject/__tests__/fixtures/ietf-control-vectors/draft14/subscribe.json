@@ -1,0 +1,221 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "subscribe",
+  "message_type_id": "0x03",
+  "spec_section": "9.7",
+  "vectors": [
+    {
+      "id": "filter-next-group-start",
+      "description": "minimal SUBSCRIBE with NextGroupStart filter, no parameters",
+      "hex": "0300120101046c69766505766964656f8000000100",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "subscriber_priority": "128",
+        "group_order": "0",
+        "forward": "0",
+        "filter_type": "1",
+        "parameters": []
+      }
+    },
+    {
+      "id": "filter-latest-object",
+      "description": "SUBSCRIBE with LatestObject filter and multi-element namespace",
+      "hex": "03001f03020a636f6e666572656e636506726f6f6d343205617564696f8000000200",
+      "decoded": {
+        "request_id": "3",
+        "track_namespace": [
+          "conference",
+          "room42"
+        ],
+        "track_name": "audio",
+        "subscriber_priority": "128",
+        "group_order": "0",
+        "forward": "0",
+        "filter_type": "2",
+        "parameters": []
+      }
+    },
+    {
+      "id": "filter-absolute-start",
+      "description": "SUBSCRIBE with AbsoluteStart filter",
+      "hex": "0300140101046c69766505766964656f800000030a0300",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "subscriber_priority": "128",
+        "group_order": "0",
+        "forward": "0",
+        "filter_type": "3",
+        "start_group": "10",
+        "start_object": "3",
+        "parameters": []
+      }
+    },
+    {
+      "id": "filter-absolute-range",
+      "description": "SUBSCRIBE with AbsoluteRange filter",
+      "hex": "0300150101046c69766505766964656f800000040a031400",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "subscriber_priority": "128",
+        "group_order": "0",
+        "forward": "0",
+        "filter_type": "4",
+        "start_group": "10",
+        "start_object": "3",
+        "end_group": "20",
+        "parameters": []
+      }
+    },
+    {
+      "id": "descending-forward-enabled",
+      "description": "SUBSCRIBE with descending group order and forward enabled",
+      "hex": "0300120201046c69766505766964656f4002010100",
+      "decoded": {
+        "request_id": "2",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "subscriber_priority": "64",
+        "group_order": "2",
+        "forward": "1",
+        "filter_type": "1",
+        "parameters": []
+      }
+    },
+    {
+      "id": "with-auth-token",
+      "description": "SUBSCRIBE with AUTHORIZATION TOKEN parameter (USE_VALUE)",
+      "hex": "03001e0101046c69766505766964656f8000000101030a0301746f6b656e313233",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "subscriber_priority": "128",
+        "group_order": "0",
+        "forward": "0",
+        "filter_type": "1",
+        "parameters": [
+          {
+            "name": "authorization_token",
+            "type": "0x3",
+            "value": {
+              "alias_type": "3",
+              "token_type": "1",
+              "token_value": "746f6b656e313233"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-delivery-timeout",
+      "description": "SUBSCRIBE with DELIVERY_TIMEOUT parameter",
+      "hex": "0300150101046c69766505766964656f8001010201025388",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "subscriber_priority": "128",
+        "group_order": "1",
+        "forward": "1",
+        "filter_type": "2",
+        "parameters": [
+          {
+            "name": "delivery_timeout",
+            "type": "0x2",
+            "value": "5000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "unknown-extension-param",
+      "description": "SUBSCRIBE with unknown extension parameter — must be skipped",
+      "hex": "0300180101046c69766505766964656f80000001012104deadbeef",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "subscriber_priority": "128",
+        "group_order": "0",
+        "forward": "0",
+        "filter_type": "1",
+        "parameters": [
+          {
+            "raw_hex": "deadbeef",
+            "type": "0x21"
+          }
+        ]
+      }
+    },
+    {
+      "id": "invalid-filter-type",
+      "description": "SUBSCRIBE with filter_type=0 — reserved/undefined value",
+      "hex": "0300120101046c69766505766964656f8000000000",
+      "error": "invalid_value",
+      "error_detail": "filter_type 0 is not a defined filter type"
+    },
+    {
+      "id": "truncated",
+      "description": "truncated SUBSCRIBE — missing track_name",
+      "hex": "0300120101046c697665",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading track_name"
+    },
+    {
+      "id": "with-two-auth-tokens",
+      "description": "SUBSCRIBE carrying AUTHORIZATION_TOKEN twice, with different Token Values. The parameter's own definition is the carve-out: \"The AUTHORIZATION TOKEN parameter MAY be repeated within a message as long as the combination of Token Type and Token Value are unique after resolving any aliases.\" The second instance is written as the Parameter Type again, since this draft writes types absolutely rather than as deltas. Identical to the with-auth-token vector with the count raised and a second token appended, so the only new bytes are the repeat itself.",
+      "hex": "03002a0101046c69766505766964656f8000000102030a0301746f6b656e313233030a0301742d7365636f6e64",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "subscriber_priority": "128",
+        "group_order": "0",
+        "forward": "0",
+        "filter_type": "1",
+        "parameters": [
+          {
+            "name": "authorization_token",
+            "type": "0x3",
+            "value": {
+              "alias_type": "3",
+              "token_type": "1",
+              "token_value": "746f6b656e313233"
+            }
+          },
+          {
+            "name": "authorization_token",
+            "type": "0x3",
+            "value": {
+              "alias_type": "3",
+              "token_type": "1",
+              "token_value": "742d7365636f6e64"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "subscribe_ok",
+  "message_type_id": "0x04",
+  "spec_section": "6.15",
+  "vectors": [
+    {
+      "id": "no-content",
+      "description": "SUBSCRIBE_OK with no content",
+      "hex": "04050200010000",
+      "decoded": {
+        "subscribe_id": "2",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "0",
+        "parameters": []
+      }
+    },
+    {
+      "id": "content-exists",
+      "description": "SUBSCRIBE_OK with content exists and largest location",
+      "hex": "0407021e0201050a00",
+      "decoded": {
+        "subscribe_id": "2",
+        "expires": "30",
+        "group_order": "2",
+        "content_exists": "1",
+        "largest_group_id": "5",
+        "largest_object_id": "10",
+        "parameters": []
+      }
+    },
+    {
+      "id": "with-delivery-timeout",
+      "description": "SUBSCRIBE_OK with DELIVERY_TIMEOUT parameter",
+      "hex": "0409020001000103025388",
+      "decoded": {
+        "subscribe_id": "2",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "0",
+        "parameters": [
+          {
+            "name": "delivery_timeout",
+            "type": "0x3",
+            "value": "5000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-max-cache-duration",
+      "description": "SUBSCRIBE_OK with MAX_CACHE_DURATION parameter (10000ms)",
+      "hex": "0409020001000104026710",
+      "decoded": {
+        "subscribe_id": "2",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "0",
+        "parameters": [
+          {
+            "name": "max_cache_duration",
+            "type": "0x4",
+            "value": "10000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated SUBSCRIBE_OK — missing group_order",
+      "hex": "04020200",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading group_order"
+    }
+  ]
+}

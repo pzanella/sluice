@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <!-- The icon for 16 px, on the pixel grid: a plain downscale of icon.svg blurs the posts and merges the wave with them. -->
+  <rect width="16" height="16" rx="3" fill="#0a5fc4"/>
+  <rect x="2" y="2" width="2" height="12" fill="#ffffff"/>
+  <rect x="12" y="2" width="2" height="12" fill="#ffffff"/>
+  <rect x="4" y="3" width="8" height="4" fill="#bcd9fa"/>
+  <path d="M5 11h2v-1h2v1h2v1H9v-1H7v1H5z" fill="#ffffff"/>
+</svg>

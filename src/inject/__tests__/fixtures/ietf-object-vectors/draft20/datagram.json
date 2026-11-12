@@ -1,0 +1,219 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x00",
+  "spec_section": "11.3.1",
+  "vectors": [
+    {
+      "id": "datagram-4byte-payload",
+      "description": "object datagram (Type Flags 0x00: object_id present, priority present) with 4-byte payload",
+      "hex": "0001020080deadbeef",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x00",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-no-object-id",
+      "description": "object datagram (Type Flags 0x04: ZERO_OBJECT_ID, so no object_id field; priority present) with empty payload",
+      "hex": "04056480",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x04",
+        "track_alias": "5",
+        "group_id": "100",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "payload_hex": ""
+      }
+    },
+    {
+      "id": "datagram-end-of-group",
+      "description": "object datagram (Type Flags 0x02: END_OF_GROUP, object_id present, priority present) with payload",
+      "hex": "0201000580deadbeef",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x02",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "end_of_group": true,
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-status",
+      "description": "object datagram (Type Flags 0x20: STATUS, object_id present, priority present) with end-of-group status",
+      "hex": "200100058003",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x20",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "object_status": "3"
+      }
+    },
+    {
+      "id": "datagram-default-priority",
+      "description": "object datagram (Type Flags 0x08: DEFAULT_PRIORITY, object_id present) with payload",
+      "hex": "08010000cafe",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x08",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "0",
+        "payload_hex": "cafe"
+      }
+    },
+    {
+      "id": "datagram-with-empty-properties",
+      "description": "object datagram carrying no properties (Type Flags 0x00: PROPERTIES clear, object_id present, priority present) with a 4-byte payload. Section 11.3.1 says an endpoint that receives a datagram with the PROPERTIES bit set and a Properties Length of 0 MUST close the session with a PROTOCOL_VIOLATION, so an object with no properties leaves the bit clear and omits the field entirely. A subgroup stream has the opposite rule: with the header's PROPERTIES bit set, every Object carries the field and an empty one sets Properties Length to 0",
+      "hex": "0001000080deadbeef",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x00",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-with-properties-content",
+      "description": "object datagram (Type Flags 0x01: PROPERTIES set), Group 5, with a PRIOR_GROUP_ID_GAP=2 property and a 2-byte payload. Section 12.8: \"An Object has a Prior Group ID Gap larger than the Group ID.\" That makes the Track malformed (Section 2.4.2), so the Group ID is at least 2",
+      "hex": "0101050080023c02cafe",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x01",
+        "track_alias": "1",
+        "group_id": "5",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "object_properties": [
+          {
+            "type": "0x3c",
+            "name": "prior_group_id_gap",
+            "value": "2"
+          }
+        ],
+        "payload_hex": "cafe"
+      }
+    },
+    {
+      "id": "datagram-end-of-track-status",
+      "description": "object datagram (Type Flags 0x20: STATUS) with end-of-track status (0x4)",
+      "hex": "200100038004",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x20",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "3",
+        "publisher_priority": "128",
+        "object_status": "4"
+      }
+    },
+    {
+      "id": "noncanonical-type-flags",
+      "description": "object datagram whose Type Flags value 0x00 is encoded as the 2-byte varint 8000 rather than the one-byte 00. Section 1.4.1 permits non-minimal encodings and the datagram rules constrain the value, not its width, so this decodes to Type Flags 0. Section 11.4.2 words the corresponding SUBGROUP_HEADER rule as \"values of 128 or greater (i.e., any value that requires more than a one-byte variable-length integer encoding)\", two clauses that are not equivalent under that allowance. This corpus is permissive on receive and strict on send, so the vector is decode-only",
+      "hex": "800001020080deadbeef",
+      "canonical": false,
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x00",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "status-datagram-with-payload",
+      "description": "status datagram carrying payload bytes — must close the session. Section 11.3.1: \"The STATUS bit (0x20) indicates whether the datagram contains an Object Status or Object Payload.\" The two occupy the same position, so the four bytes after the status are not a payload this frame can hold. Identical to the datagram-status vector with those bytes appended. Bound to the endpoint profile: a relay forwards a datagram whole and needs no part of this to find where it ends",
+      "hex": "200100058003deadbeef",
+      "error": "payload_not_permitted",
+      "error_detail": "the datagram Type Flags set the STATUS bit, so the four trailing bytes are not a payload",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "reserved-bit-4-set",
+      "description": "object datagram whose Type Flags set bit 4 (0x10). Section 11.3.1 lists it among the invalid values: \"Values with bit 4 (0x10) set. This bit is reserved and MUST be zero.\" Note that SUBGROUP_HEADER requires the opposite — bit 4 MUST be 1 there — so the datagram rules do not transfer to subgroup streams. The bytes after the Type Flags are those of the datagram-4byte-payload vector, which decodes",
+      "hex": "1001020080deadbeef",
+      "error": "invalid_type",
+      "error_detail": "datagram Type Flags bit 4 (0x10) is reserved and MUST be zero",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "status-and-end-of-group",
+      "description": "object datagram whose Type Flags set both STATUS (0x20) and END_OF_GROUP (0x02). Section 11.3.1 names this combination invalid",
+      "hex": "220100058003",
+      "error": "invalid_type",
+      "error_detail": "datagram Type Flags 0x22 sets both the STATUS and END_OF_GROUP bits",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "unspecified-bit-set",
+      "description": "object datagram whose Type Flags set bit 6 (0x40), which has no specified meaning for a datagram. Section 11.3.1: \"Values with a bit set whose meaning is not specified\" are invalid. Bit 6 is FIRST_OBJECT on a SUBGROUP_HEADER and nothing at all here",
+      "hex": "4001020080deadbeef",
+      "error": "invalid_type",
+      "error_detail": "datagram Type Flags bit 6 (0x40) has no specified meaning",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "type-flags-above-127",
+      "description": "object datagram whose Type Flags decode to 128, encoded as the minimal two-byte varint 8080. All values draft-20 defines fit in a single byte, and 128 necessarily sets bit 7, whose meaning is not specified. Unlike SUBGROUP_HEADER, Section 11.3.1 carries no explicit \"values of 128 or greater\" bullet; the unspecified-bit rule is what catches this",
+      "hex": "808001020080deadbeef",
+      "error": "invalid_type",
+      "error_detail": "datagram Type Flags 128 sets an unspecified bit",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "properties-bit-with-zero-length",
+      "description": "object datagram whose Type Flags set PROPERTIES (0x01) but whose Properties Length is 0. Section 11.3.1: \"If an endpoint receives a datagram with the PROPERTIES bit set and an Properties Length of 0, it MUST close the session with a PROTOCOL_VIOLATION\"",
+      "hex": "010100008000cafe",
+      "error": "invalid_value",
+      "error_detail": "a datagram with the PROPERTIES bit set must carry a non-empty Properties structure",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "status-and-properties-non-normal",
+      "description": "object datagram setting both STATUS (0x20) and PROPERTIES (0x01) whose Object Status is End of Group (0x3), Group 5, with PRIOR_GROUP_ID_GAP=2. Section 11.3.1: \"If an Object Datagram includes both the STATUS bit and PROPERTIES bit, and the Object Status is not Normal (0x0), the endpoint MUST close the session with a PROTOCOL_VIOLATION, because only Normal Objects can have Properties.\" The gap is within the Group ID, so the status is the only fault",
+      "hex": "2101050580023c0203",
+      "error": "invalid_value",
+      "error_detail": "only a Normal (0x0) Object may carry Properties",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "truncated",
+      "description": "truncated datagram (Type Flags 0x00) — missing object_id",
+      "hex": "000102",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading object_id"
+    }
+  ]
+}

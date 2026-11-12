@@ -1,0 +1,79 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "subscribe_ok",
+  "message_type_id": "0x04",
+  "spec_section": "8.8",
+  "vectors": [
+    {
+      "id": "no-content",
+      "description": "SUBSCRIBE_OK with no content",
+      "hex": "0400050200010000",
+      "decoded": {
+        "request_id": "2",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "0",
+        "parameters": []
+      }
+    },
+    {
+      "id": "content-exists",
+      "description": "SUBSCRIBE_OK with content exists and largest location",
+      "hex": "040007021e0201050a00",
+      "decoded": {
+        "request_id": "2",
+        "expires": "30",
+        "group_order": "2",
+        "content_exists": "1",
+        "largest_location": {
+          "group": "5",
+          "object": "10"
+        },
+        "parameters": []
+      }
+    },
+    {
+      "id": "with-delivery-timeout",
+      "description": "SUBSCRIBE_OK with DELIVERY_TIMEOUT parameter",
+      "hex": "0400080200010001025388",
+      "decoded": {
+        "request_id": "2",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "0",
+        "parameters": [
+          {
+            "name": "delivery_timeout",
+            "type": "0x2",
+            "value": "5000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-max-cache-duration",
+      "description": "SUBSCRIBE_OK with MAX_CACHE_DURATION parameter",
+      "hex": "0400080200010001046710",
+      "decoded": {
+        "request_id": "2",
+        "expires": "0",
+        "group_order": "1",
+        "content_exists": "0",
+        "parameters": [
+          {
+            "name": "max_cache_duration",
+            "type": "0x4",
+            "value": "10000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated SUBSCRIBE_OK — missing group_order",
+      "hex": "0400020200",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading group_order"
+    }
+  ]
+}

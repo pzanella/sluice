@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sluice demo</title>
+    <link rel="icon" href="data:," />
+    <style>
+      body { font: 14px/1.5 system-ui, sans-serif; margin: 24px; max-width: 720px; background: #fff; color: #111; }
+      button { margin-right: 8px; }
+      pre { background: #f2f2f2; padding: 12px; overflow-x: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>Sluice demo</h1>
+    <p>A small WebTransport app for tests. Automated tests use <code>window.__demo</code>.</p>
+    <button id="push-default">/push (default reader)</button>
+    <button id="push-byob">/push (BYOB reader)</button>
+    <button id="moq">/moq (moq-lite player)</button>
+    <button id="close">Close</button>
+    <h2>Counters</h2>
+    <pre id="counters">not connected</pre>
+    <h2>Last payloads</h2>
+    <pre id="payloads"></pre>
+    <script type="module" src="demo.js"></script>
+  </body>
+</html>

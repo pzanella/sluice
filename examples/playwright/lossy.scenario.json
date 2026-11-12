@@ -1,0 +1,14 @@
+{
+  "format": "sluice-scenario",
+  "version": 1,
+  "config": {
+    "enabled": true,
+    "log": { "session": false, "datagram": false, "uni": false, "bidi": false, "previewBytes": 48 },
+    "datagram": { "dropRate": 0.5, "delayMs": 0, "jitterMs": 0, "preserveOrder": true },
+    "stream": { "delayMs": 0, "jitterMs": 0 },
+    "wrapLocalBidi": true,
+    "maxDelayedBytes": 8388608,
+    "seed": 42,
+    "rules": []
+  }
+}

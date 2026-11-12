@@ -1,0 +1,46 @@
+{
+  "format": "sluice-scenario",
+  "version": 1,
+  "config": {
+    "enabled": true,
+    "log": {
+      "session": false,
+      "datagram": false,
+      "uni": false,
+      "bidi": false,
+      "previewBytes": 48
+    },
+    "datagram": {
+      "dropRate": 0,
+      "delayMs": 0,
+      "jitterMs": 0,
+      "preserveOrder": true
+    },
+    "stream": {
+      "delayMs": 0,
+      "jitterMs": 0
+    },
+    "wrapLocalBidi": true,
+    "maxDelayedBytes": 8388608,
+    "seed": 42,
+    "rules": [
+      {
+        "id": "close-at-a-video-frame",
+        "action": {
+          "type": "close-session",
+          "closeCode": 0,
+          "reason": "Closed by Sluice"
+        },
+        "on": [
+          "uni"
+        ],
+        "match": {
+          "moqt": {
+            "track": "video"
+          }
+        },
+        "probability": 0.01
+      }
+    ]
+  }
+}

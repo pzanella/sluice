@@ -1,0 +1,932 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "subscribe",
+  "message_type_id": "0x03",
+  "spec_section": "9.6",
+  "vectors": [
+    {
+      "id": "minimal",
+      "description": "minimal SUBSCRIBE with no parameters",
+      "hex": "03000e0101046c69766505766964656f00",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": []
+      }
+    },
+    {
+      "id": "multi-namespace",
+      "description": "SUBSCRIBE with multi-element namespace",
+      "hex": "03001b03020a636f6e666572656e636506726f6f6d343205617564696f00",
+      "decoded": {
+        "request_id": "3",
+        "track_namespace": [
+          "conference",
+          "room42"
+        ],
+        "track_name": "audio",
+        "parameters": []
+      }
+    },
+    {
+      "id": "with-filter-relative-next-group",
+      "description": "SUBSCRIBE with a one-field LOCATION_FILTER (StartGroup=0), the relative form: the start Location is {Largest Object.Group + 1 - StartGroup, 0}, so StartGroup=0 starts at the Next Group. Open-ended. Draft-20 deleted the Filter Type enum (draft-19's 0x1 Next Group Start / 0x2 Largest Object / 0x3 AbsoluteStart / 0x4 AbsoluteRange) and derives the filter's shape from how many vi64 fields the value holds (Section 3.3.1). The draft says \"Length (in bytes) determines how many optional vi64 fields are present\", which is not implementable as written because vi64s are 1-9 bytes and need not be minimal (Section 8.1); the round-trippable rule, and the one this corpus encodes, is to decode vi64 values until exactly Length bytes are consumed and then switch on the count.",
+      "hex": "0300110101046c69766505766964656f01210100",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "location_filter",
+            "type": "0x21",
+            "value": {
+              "start_group": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-filter-relative-three-groups-back",
+      "description": "SUBSCRIBE with a one-field LOCATION_FILTER (StartGroup=3), starting 2 groups before the current group. StartGroup=1 is the current group and StartGroup=N is N-1 groups before it. Open-ended",
+      "hex": "0300110101046c69766505766964656f01210103",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "location_filter",
+            "type": "0x21",
+            "value": {
+              "start_group": "3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-filter-next-object",
+      "description": "SUBSCRIBE with a two-field LOCATION_FILTER whose StartGroup and StartObject are both 0 — the special case meaning the Next Object, {Largest Object.Group, Largest Object.Object + 1}, or {0,0} if nothing has been delivered. This is the draft-20 replacement for draft-19's Filter Type 0x2 (Largest Object)",
+      "hex": "0300120101046c69766505766964656f0121020000",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "location_filter",
+            "type": "0x21",
+            "value": {
+              "start_group": "0",
+              "start_object": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-filter-absolute-start",
+      "description": "SUBSCRIBE with a two-field LOCATION_FILTER (StartGroup=10, StartObject=3). Because the pair is not {0,0} the start is the literal absolute Location {10,3}. Open-ended",
+      "hex": "0300120101046c69766505766964656f0121020a03",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "location_filter",
+            "type": "0x21",
+            "value": {
+              "start_group": "10",
+              "start_object": "3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-filter-absolute-range",
+      "description": "SUBSCRIBE with a three-field LOCATION_FILTER: start {10,3}, EndGroupDelta 10 so the End Group is 20. EndObject is omitted, which includes all objects in group 20. The range is inclusive at both ends",
+      "hex": "0300130101046c69766505766964656f0121030a030a",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "location_filter",
+            "type": "0x21",
+            "value": {
+              "end_group_delta": "10",
+              "start_group": "10",
+              "start_object": "3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-filter-full-range",
+      "description": "SUBSCRIBE with a four-field LOCATION_FILTER: the fully specified inclusive range {10,3} through {20,7}. Draft-19's exclusive \"last object plus 1\" convention is gone; object 7 of group 20 is inside this range",
+      "hex": "0300140101046c69766505766964656f0121040a030a07",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "location_filter",
+            "type": "0x21",
+            "value": {
+              "end_group_delta": "10",
+              "end_object": "7",
+              "start_group": "10",
+              "start_object": "3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-filter-noncanonical-field-count",
+      "description": "non-canonical SUBSCRIBE — a two-field LOCATION_FILTER whose StartGroup (10) is encoded as a 2-byte varint (800a), giving the parameter a Length of 3. A decoder that read the byte length as a field count would call this a three-field filter and invent an EndGroupDelta; decoding vi64s until Length is consumed yields two fields. Decode-only",
+      "hex": "0300130101046c69766505766964656f012103800a03",
+      "canonical": false,
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "location_filter",
+            "type": "0x21",
+            "value": {
+              "start_group": "10",
+              "start_object": "3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-fill-parameters-empty",
+      "description": "SUBSCRIBE with an empty FILL_PARAMETERS parameter (0x23). Its presence is what requests a fill fetch stream; every setting is inherited from the subscription. The value is a parameter block encoded as if for a separate message, so it begins with Number of Parameters — here 0. The parameter is therefore Length 1 carrying the single byte 00, not Length 0. Section 9.20.16 does not state whether the count is present; Section 9.20 defines a parameter block as count-bounded, and this corpus encodes that reading",
+      "hex": "0300110101046c69766505766964656f01230100",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "fill_parameters",
+            "type": "0x23",
+            "value": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-fill-parameters-location-filter",
+      "description": "SUBSCRIBE whose FILL_PARAMETERS carries a LOCATION_FILTER selecting the fill range {100,0} onward, evaluated with Fetch rules and independent of the subscription's own filter. The inner Type Delta chain starts from 0, so LOCATION_FILTER's delta is its absolute type 0x21",
+      "hex": "0300150101046c69766505766964656f0123050121026400",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "fill_parameters",
+            "type": "0x23",
+            "value": [
+              {
+                "name": "location_filter",
+                "type": "0x21",
+                "value": {
+                  "start_group": "100",
+                  "start_object": "0"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-fill-parameters-then-outer-param",
+      "description": "SUBSCRIBE with FILL_PARAMETERS (0x23) carrying SUBSCRIBER_PRIORITY (0x20) and GROUP_ORDER (0x22), followed in the outer message by NEW_GROUP_REQUEST (0x32). The outer delta is 0x0F, resuming from 0x23, not 0x10 resuming from the last inner type 0x22: Section 9.20.16 calls the value a separate parameter scope, so the two chains do not interleave. The draft does not state either half explicitly",
+      "hex": "0300170101046c69766505766964656f02230502204002010f19",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "fill_parameters",
+            "type": "0x23",
+            "value": [
+              {
+                "name": "subscriber_priority",
+                "type": "0x20",
+                "value": "64"
+              },
+              {
+                "name": "group_order",
+                "type": "0x22",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "name": "new_group_request",
+            "type": "0x32",
+            "value": "25"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-include-properties-zero",
+      "description": "SUBSCRIBE with INCLUDE_PROPERTIES (0x35) set to 0 — the SUBSCRIBE_OK should carry an empty Track Properties field. The field is still structurally present; this is a bandwidth opt-out, not a schema change",
+      "hex": "0300100101046c69766505766964656f013500",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "include_properties",
+            "type": "0x35",
+            "value": "0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-include-properties-one",
+      "description": "SUBSCRIBE with INCLUDE_PROPERTIES (0x35) set explicitly to 1, its default",
+      "hex": "0300100101046c69766505766964656f013501",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "include_properties",
+            "type": "0x35",
+            "value": "1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-object-delivery-timeout",
+      "description": "SUBSCRIBE with OBJECT_DELIVERY_TIMEOUT parameter (5000ms)",
+      "hex": "0300110101046c69766505766964656f01029388",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "object_delivery_timeout",
+            "type": "0x2",
+            "value": "5000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-subgroup-delivery-timeout",
+      "description": "SUBSCRIBE with SUBGROUP_DELIVERY_TIMEOUT parameter (10000ms)",
+      "hex": "0300110101046c69766505766964656f0106a710",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "subgroup_delivery_timeout",
+            "type": "0x6",
+            "value": "10000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-rendezvous-timeout",
+      "description": "SUBSCRIBE with RENDEZVOUS_TIMEOUT parameter (3000ms)",
+      "hex": "0300110101046c69766505766964656f01048bb8",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "rendezvous_timeout",
+            "type": "0x4",
+            "value": "3000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-forward",
+      "description": "SUBSCRIBE with FORWARD parameter (forward=1)",
+      "hex": "0300100101046c69766505766964656f011001",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "forward",
+            "type": "0x10",
+            "value": "1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-subscriber-priority",
+      "description": "SUBSCRIBE with SUBSCRIBER_PRIORITY parameter (32)",
+      "hex": "0300100101046c69766505766964656f012020",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "subscriber_priority",
+            "type": "0x20",
+            "value": "32"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-group-order",
+      "description": "SUBSCRIBE with GROUP_ORDER parameter (descending=2)",
+      "hex": "0300100101046c69766505766964656f012202",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "group_order",
+            "type": "0x22",
+            "value": "2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-new-group-request",
+      "description": "SUBSCRIBE with NEW_GROUP_REQUEST parameter (group_id=50)",
+      "hex": "0300100101046c69766505766964656f013232",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "new_group_request",
+            "type": "0x32",
+            "value": "50"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-both-delivery-timeouts",
+      "description": "SUBSCRIBE with both OBJECT_DELIVERY_TIMEOUT (3000ms) and SUBGROUP_DELIVERY_TIMEOUT (8000ms); demonstrates type-delta ordering",
+      "hex": "0300140101046c69766505766964656f02028bb8049f40",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "object_delivery_timeout",
+            "type": "0x2",
+            "value": "3000"
+          },
+          {
+            "name": "subgroup_delivery_timeout",
+            "type": "0x6",
+            "value": "8000"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-auth-token-register",
+      "description": "SUBSCRIBE with AUTHORIZATION_TOKEN parameter (REGISTER alias=1, type=0, value='secret-token')",
+      "hex": "03001f0101046c69766505766964656f01030f0101007365637265742d746f6b656e",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "authorization_token",
+            "type": "0x3",
+            "value": {
+              "alias_type": "1",
+              "token_alias": "1",
+              "token_type": "0",
+              "token_value": "7365637265742d746f6b656e"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-auth-token-use-alias",
+      "description": "SUBSCRIBE with AUTHORIZATION_TOKEN parameter (USE_ALIAS alias=1)",
+      "hex": "0300120101046c69766505766964656f0103020201",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "authorization_token",
+            "type": "0x3",
+            "value": {
+              "alias_type": "2",
+              "token_alias": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-auth-token-use-value",
+      "description": "SUBSCRIBE with AUTHORIZATION_TOKEN parameter (USE_VALUE type=0, value='my-bearer-token')",
+      "hex": "0300210101046c69766505766964656f01031103006d792d6265617265722d746f6b656e",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "authorization_token",
+            "type": "0x3",
+            "value": {
+              "alias_type": "3",
+              "token_type": "0",
+              "token_value": "6d792d6265617265722d746f6b656e"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-multiple-params",
+      "description": "SUBSCRIBE with OBJECT_DELIVERY_TIMEOUT (5000ms), SUBSCRIBER_PRIORITY (32), and GROUP_ORDER (ascending=1)",
+      "hex": "0300150101046c69766505766964656f030293881e200201",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "object_delivery_timeout",
+            "type": "0x2",
+            "value": "5000"
+          },
+          {
+            "name": "subscriber_priority",
+            "type": "0x20",
+            "value": "32"
+          },
+          {
+            "name": "group_order",
+            "type": "0x22",
+            "value": "1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-subgroup-filter",
+      "description": "SUBSCRIBE with SUBGROUP_FILTER (0x25): SetID 0, one Subgroup ID range 2-4",
+      "hex": "0300130101046c69766505766964656f012503000202",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "subgroup_filter",
+            "type": "0x25",
+            "value": {
+              "ranges": [
+                {
+                  "end": "4",
+                  "start": "2"
+                }
+              ],
+              "set_id": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-objectid-filter",
+      "description": "SUBSCRIBE with OBJECTID_FILTER (0x26): SetID 0, one Object ID range 0-9",
+      "hex": "0300130101046c69766505766964656f012603000009",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "objectid_filter",
+            "type": "0x26",
+            "value": {
+              "ranges": [
+                {
+                  "end": "9",
+                  "start": "0"
+                }
+              ],
+              "set_id": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-objectid-filter-multi-range",
+      "description": "SUBSCRIBE with OBJECTID_FILTER (0x26) carrying two ranges 3-5 and 10-15; exercises delta-encoded Range pairs (wire: 03 02 05 05)",
+      "hex": "0300150101046c69766505766964656f0126050003020505",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "objectid_filter",
+            "type": "0x26",
+            "value": {
+              "ranges": [
+                {
+                  "end": "5",
+                  "start": "3"
+                },
+                {
+                  "end": "15",
+                  "start": "10"
+                }
+              ],
+              "set_id": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-priority-filter",
+      "description": "SUBSCRIBE with PRIORITY_FILTER (0x27): SetID 0, Publisher Priority range 0-127",
+      "hex": "0300130101046c69766505766964656f01270300007f",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "priority_filter",
+            "type": "0x27",
+            "value": {
+              "ranges": [
+                {
+                  "end": "127",
+                  "start": "0"
+                }
+              ],
+              "set_id": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-subgroup-filter-open-ended",
+      "description": "SUBSCRIBE with SUBGROUP_FILTER (0x25) open-ended range starting at 5 with no end (final End omitted)",
+      "hex": "0300120101046c69766505766964656f0125020005",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "subgroup_filter",
+            "type": "0x25",
+            "value": {
+              "ranges": [
+                {
+                  "start": "5"
+                }
+              ],
+              "set_id": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-object-property-filter",
+      "description": "SUBSCRIBE with OBJECT_PROPERTY_FILTER (0x28): SetID 0, Object Property Type 0x0C, value range 1-3",
+      "hex": "0300140101046c69766505766964656f012804000c0102",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "object_property_filter",
+            "type": "0x28",
+            "value": {
+              "property_type": "12",
+              "ranges": [
+                {
+                  "end": "3",
+                  "start": "1"
+                }
+              ],
+              "set_id": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "include-properties-invalid-value",
+      "description": "SUBSCRIBE with INCLUDE_PROPERTIES (0x35) carrying the value 2. Section 9.20.22: \"The allowed values are 0 (do not send Properties) or 1 (send Properties), and the default is 1. If an endpoint receives a value outside this range, it MUST close the session with PROTOCOL_VIOLATION\"",
+      "hex": "0300100101046c69766505766964656f013502",
+      "error": "invalid_parameter",
+      "error_detail": "INCLUDE_PROPERTIES accepts only 0 or 1",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "fill-parameters-invalid-nested-param",
+      "description": "SUBSCRIBE whose FILL_PARAMETERS (0x23) contains a TRACK_PROPERTY_FILTER (0x29). Table 6 lists the eight parameter types that may appear inside FILL_PARAMETERS and 0x29 is deliberately not among them: \"An endpoint that receives a parameter inside FILL_PARAMETERS that is not listed above MUST close the session with PROTOCOL_VIOLATION.\" A relay forwarding a downstream FILL_PARAMETERS upstream has to strip it rather than pass it on",
+      "hex": "0300170101046c69766505766964656f012307012904000e0100",
+      "error": "parameter_out_of_scope",
+      "error_detail": "TRACK_PROPERTY_FILTER (0x29) is not one of the eight parameter types Table 6 permits inside FILL_PARAMETERS",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "with-subgroup-filter-set-id-1",
+      "description": "SUBSCRIBE with SUBGROUP_FILTER carrying SetID 1 rather than 0. Section 3.3.2: \"All filter parameters with the same SetID value are combined using logical \\\"AND\\\" operations, then all the resulting sets are combined using logical \\\"OR\\\" operations.\" The SetID is the first octet of every Range Filter value and it is not decoration, so a decoder that skipped it would read this filter's ranges out of the Property Type position on two of the five types. Identical to the with-subgroup-filter vector with the SetID octet changed, which is the whole of the difference on the wire.",
+      "hex": "0300130101046c69766505766964656f012503010202",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "subgroup_filter",
+            "type": "0x25",
+            "value": {
+              "ranges": [
+                {
+                  "end": "4",
+                  "start": "2"
+                }
+              ],
+              "set_id": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-two-subgroup-filters",
+      "description": "SUBSCRIBE carrying SUBGROUP_FILTER twice: Subgroup 1-3 in set 0, Subgroup 10-12 in set 1. Section 3.3.2: \"All other filter parameters MAY appear multiple times in a FETCH, SUBSCRIBE, SUBSCRIBE_TRACKS, or REQUEST_UPDATE\". One parameter carries one SetID, so two alternatives that each constrain the same field have no other encoding. Section 9.20 requires that \"Parameters MUST be serialized in ascending order by Type\", which makes the second instance a Type Delta of 0 — the byte after the first value. A decoder that reads a zero delta as a malformed repeat rather than as a second instance closes the session on this frame.",
+      "hex": "0300180101046c69766505766964656f0225030001020003010a02",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "subgroup_filter",
+            "type": "0x25",
+            "value": {
+              "ranges": [
+                {
+                  "end": "3",
+                  "start": "1"
+                }
+              ],
+              "set_id": "0"
+            }
+          },
+          {
+            "name": "subgroup_filter",
+            "type": "0x25",
+            "value": {
+              "ranges": [
+                {
+                  "end": "12",
+                  "start": "10"
+                }
+              ],
+              "set_id": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-two-filters-one-set",
+      "description": "SUBSCRIBE carrying SUBGROUP_FILTER and PRIORITY_FILTER under the same SetID, which Section 3.3.2 combines with AND: an Object passes only if its Subgroup ID is 1 to 3 and its Publisher Priority is 0 to 127. The pair beside the with-two-subgroup-filters vector is what separates the two operators — same SetID is AND, different SetIDs are OR — and neither vector alone shows which one a SetID selects. Two different types, so the Type Delta is 2 rather than 0 and no repeat is involved.",
+      "hex": "0300180101046c69766505766964656f022503000102020300007f",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "subgroup_filter",
+            "type": "0x25",
+            "value": {
+              "ranges": [
+                {
+                  "end": "3",
+                  "start": "1"
+                }
+              ],
+              "set_id": "0"
+            }
+          },
+          {
+            "name": "priority_filter",
+            "type": "0x27",
+            "value": {
+              "ranges": [
+                {
+                  "end": "127",
+                  "start": "0"
+                }
+              ],
+              "set_id": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-priority-filter-full-range",
+      "description": "SUBSCRIBE with PRIORITY_FILTER covering 0 to 255, the whole of the field. Section 9.20.13: \"If a decoded value exceeds 255, the endpoint MUST reject this with REQUEST_ERROR with error code INVALID_FILTER since Publisher Priority is an 8-bit field.\" 255 is the largest value that is not a rejection, and its End delta is the first in this file that does not fit a single-byte varint — 255 is written 80ff, so a decoder that read one byte per delta would resolve the range as 0-0 and then find a trailing octet it had no field for.",
+      "hex": "0300140101046c69766505766964656f012704000080ff",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "priority_filter",
+            "type": "0x27",
+            "value": {
+              "ranges": [
+                {
+                  "end": "255",
+                  "start": "0"
+                }
+              ],
+              "set_id": "0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "unknown-extension-param",
+      "description": "SUBSCRIBE with a Message Parameter type draft-21 does not define — must close the session. Section 9.20: \"An endpoint that receives an unknown Message Parameter MUST close the session with PROTOCOL_VIOLATION. Because the receiver has to understand every Message Parameter, there is no need for a mechanism to skip unknown parameters. Because unknown parameters cannot be skipped, the block is bounded by a parameter count rather than a length.\"",
+      "hex": "0300140101046c69766505766964656f014104deadbeef",
+      "error": "invalid_parameter",
+      "error_detail": "message parameter type 0x41 is not defined by draft-21"
+    },
+    {
+      "id": "truncated",
+      "description": "truncated SUBSCRIBE — missing track_name",
+      "hex": "03000d0101046c697665",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading track_name"
+    },
+    {
+      "id": "with-two-auth-tokens",
+      "description": "SUBSCRIBE carrying AUTHORIZATION_TOKEN twice, with different Token Values. The parameter's own definition is the carve-out: \"An Authorization Token MAY be repeated within a message as long as the combination of Token Type and Token Value are unique after resolving any aliases.\" The second instance is written as a Type Delta of 0, which is the only encoding a second instance has once Section 9.20 requires ascending order. Identical to the with-auth-token-use-value vector with the count raised and a second token appended, so the only new bytes are the repeat itself.",
+      "hex": "0300340101046c69766505766964656f02031103006d792d6265617265722d746f6b656e001103006d792d62656172652d7365636f6e64",
+      "decoded": {
+        "request_id": "1",
+        "track_namespace": [
+          "live"
+        ],
+        "track_name": "video",
+        "parameters": [
+          {
+            "name": "authorization_token",
+            "type": "0x3",
+            "value": {
+              "alias_type": "3",
+              "token_type": "0",
+              "token_value": "6d792d6265617265722d746f6b656e"
+            }
+          },
+          {
+            "name": "authorization_token",
+            "type": "0x3",
+            "value": {
+              "alias_type": "3",
+              "token_type": "0",
+              "token_value": "6d792d62656172652d7365636f6e64"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

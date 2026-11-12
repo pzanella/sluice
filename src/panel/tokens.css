@@ -1,0 +1,99 @@
+/* Design tokens of the panel and the popup. Components use these names, never raw colors. */
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --bg-alt: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --fg: #1c2024;
+  --fg-muted: #5c6670;
+  --border: #e1e5ea;
+  --control-border: #c4cbd3;
+  --accent: #4f46e5;
+  --accent-fg: #ffffff;
+  --accent-soft: #eef0ff;
+  --drop: #c4320a;
+  --modified: #7a3fb8;
+  --delayed: #0b62a8;
+  --hold: #8a5a00;
+  --injected: #1a7f37;
+  --kind-datagram: #0e7c86;
+  --kind-uni: #2563eb;
+  --kind-bidi: #9333ea;
+  --kind-out: #64748b;
+  --key: #b45309;
+  --record: #dc2626;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 1px 3px rgb(16 24 40 / 8%);
+  --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #111317;
+    --bg-alt: #181b20;
+    --surface: #1b1f25;
+    --surface-2: #232830;
+    --fg: #e8eaed;
+    --fg-muted: #9aa4af;
+    --border: #2c323a;
+    --control-border: #434b55;
+    --accent: #8b8fff;
+    --accent-fg: #0d0f1a;
+    --accent-soft: #23264a;
+    --drop: #ff8d80;
+    --modified: #c9a2f5;
+    --delayed: #7fc4f5;
+    --hold: #f0b849;
+    --injected: #56d364;
+    --kind-datagram: #3cc7d3;
+    --kind-uni: #6ea8ff;
+    --kind-bidi: #c58bff;
+    --kind-out: #9aa4af;
+    --key: #f5a524;
+    --record: #ff5c5c;
+    --shadow: 0 1px 2px rgb(0 0 0 / 40%);
+  }
+}
+
+/* DevTools can use a theme that differs from the system. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #111317;
+  --bg-alt: #181b20;
+  --surface: #1b1f25;
+  --surface-2: #232830;
+  --fg: #e8eaed;
+  --fg-muted: #9aa4af;
+  --border: #2c323a;
+  --control-border: #434b55;
+  --accent: #8b8fff;
+  --accent-fg: #0d0f1a;
+  --accent-soft: #23264a;
+  --drop: #ff8d80;
+  --modified: #c9a2f5;
+  --delayed: #7fc4f5;
+  --hold: #f0b849;
+  --injected: #56d364;
+  --kind-datagram: #3cc7d3;
+  --kind-uni: #6ea8ff;
+  --kind-bidi: #c58bff;
+  --kind-out: #9aa4af;
+  --key: #f5a524;
+  --record: #ff5c5c;
+  --shadow: 0 1px 2px rgb(0 0 0 / 40%);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 12px/1.45 var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}

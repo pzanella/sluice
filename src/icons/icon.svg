@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- A sluice gate: two posts, a raised gate, and water that passes under it. -->
+  <rect width="128" height="128" rx="26" fill="#0a5fc4"/>
+  <path d="M28 88 q18 -22 36 0 t36 0" fill="none" stroke="#ffffff" stroke-width="15"/>
+  <rect x="34" y="28" width="60" height="32" fill="#bcd9fa"/>
+  <rect x="20" y="18" width="14" height="92" rx="4" fill="#ffffff"/>
+  <rect x="94" y="18" width="14" height="92" rx="4" fill="#ffffff"/>
+</svg>

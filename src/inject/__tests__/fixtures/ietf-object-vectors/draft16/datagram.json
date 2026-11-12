@@ -1,0 +1,140 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x00",
+  "spec_section": "10.3.1",
+  "vectors": [
+    {
+      "id": "datagram-4byte-payload",
+      "description": "object datagram (type 0x00: no end-of-group, no extensions, object_id present, priority present) with 4-byte payload",
+      "hex": "0001020080deadbeef",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x00",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-no-object-id",
+      "description": "object datagram (type 0x04: no end-of-group, no extensions, NO object_id, priority present) with empty payload",
+      "hex": "0405406480",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x04",
+        "track_alias": "5",
+        "group_id": "100",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "payload_hex": ""
+      }
+    },
+    {
+      "id": "datagram-end-of-group",
+      "description": "object datagram (type 0x02: end-of-group, no extensions, object_id present, priority present) with payload",
+      "hex": "0201000580deadbeef",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x02",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "end_of_group": true,
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-status",
+      "description": "object datagram (type 0x20: status, no extensions, object_id present, priority present) with object status",
+      "hex": "200100058003",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x20",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "object_status": "3"
+      }
+    },
+    {
+      "id": "datagram-with-extensions",
+      "description": "object datagram (type 0x01: extensions present, object_id present, priority present) with DELIVERY_TIMEOUT extension",
+      "hex": "010102008003025388deadbeef",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x01",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "extension_headers": [
+          {
+            "type": "0x2",
+            "name": "delivery_timeout",
+            "value": "5000"
+          }
+        ],
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-default-priority",
+      "description": "object datagram (type 0x08: DEFAULT_PRIORITY set, object_id present) with 4-byte payload — priority inherited from control message",
+      "hex": "08010000deadbeef",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x08",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "0",
+        "payload_hex": "deadbeef"
+      }
+    },
+    {
+      "id": "datagram-end-of-track-status",
+      "description": "object datagram (type 0x20: status) with End of Track object status (0x4)",
+      "hex": "20010a008004",
+      "decoded": {
+        "stream_type": "datagram",
+        "datagram_type": "0x20",
+        "track_alias": "1",
+        "group_id": "10",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "object_status": "4"
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated datagram (type 0x00) — missing object_id",
+      "hex": "000102",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading object_id"
+    },
+    {
+      "id": "datagram-prior-group-id-gap-exceeds-group-id",
+      "description": "object datagram (type 0x01: extensions present), Group 1, carrying Prior Group ID Gap 2. Section 11.3: \"An Object has a Prior Group ID Gap larger than the Group ID.\" That makes the Track malformed (Section 2.4.2)",
+      "hex": "0101010080023c02deadbeef",
+      "error": "invalid_value",
+      "error_detail": "Prior Group ID Gap 2 is larger than Group ID 1",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "datagram-prior-object-id-gap-exceeds-object-id",
+      "description": "object datagram (type 0x01: extensions present), Group 5, Object 0, carrying Prior Object ID Gap 1. Section 11.4: \"An Object has a Prior Object ID Gap larger than the Object ID.\" That makes the Track malformed (Section 2.4.2)",
+      "hex": "0101050080023e01deadbeef",
+      "error": "invalid_value",
+      "error_detail": "Prior Object ID Gap 1 is larger than Object ID 0",
+      "profiles": [
+        "endpoint"
+      ]
+    }
+  ]
+}

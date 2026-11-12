@@ -1,0 +1,94 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x01",
+  "spec_section": "8.2",
+  "vectors": [
+    {
+      "id": "datagram-4byte-payload",
+      "description": "object datagram with 4-byte payload",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "1",
+        "group_id": "2",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "extension_count": "0",
+        "object_status": "0",
+        "payload_length": "4",
+        "payload_hex": "deadbeef"
+      },
+      "hex": "01010200800004deadbeef"
+    },
+    {
+      "id": "datagram-zero-payload",
+      "description": "object datagram with zero-length payload and Normal status",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "5",
+        "group_id": "100",
+        "object_id": "50",
+        "publisher_priority": "64",
+        "extension_count": "0",
+        "object_status": "0",
+        "payload_length": "0",
+        "payload_hex": ""
+      },
+      "hex": "010540643240000000"
+    },
+    {
+      "id": "datagram-end-of-group",
+      "description": "object datagram signaling end of group",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "extension_count": "0",
+        "object_status": "3",
+        "payload_length": "0",
+        "payload_hex": ""
+      },
+      "hex": "0101000580000003"
+    },
+    {
+      "id": "datagram-object-does-not-exist",
+      "description": "object datagram signaling object does not exist (status 0x1)",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "1",
+        "group_id": "5",
+        "object_id": "7",
+        "publisher_priority": "128",
+        "extension_count": "0",
+        "object_status": "1",
+        "payload_length": "0",
+        "payload_hex": ""
+      },
+      "hex": "0101050780000001"
+    },
+    {
+      "id": "datagram-with-extensions",
+      "description": "object datagram with 2 extensions (even-type varint + odd-type length-prefixed)",
+      "decoded": {
+        "stream_type": "object_datagram",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "extension_count": "2",
+        "payload_length": "4",
+        "payload_hex": "deadbeef"
+      },
+      "hex": "010100008002022a0302cafe04deadbeef"
+    },
+    {
+      "id": "truncated",
+      "description": "truncated datagram — missing object_id",
+      "hex": "010102",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading object_id"
+    }
+  ]
+}

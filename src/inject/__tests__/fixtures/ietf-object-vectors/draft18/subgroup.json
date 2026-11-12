@@ -1,0 +1,559 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x10",
+  "spec_section": "11.4.2",
+  "vectors": [
+    {
+      "id": "subgroup-single-object",
+      "description": "subgroup stream (type 0x10: subgroup_id=0, priority present) with one 4-byte object",
+      "hex": "100100800004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x10",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-two-objects",
+      "description": "subgroup stream (type 0x10) with two consecutive objects",
+      "hex": "100100800004deadbeef0002cafe",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x10",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-explicit-subgroup-id",
+      "description": "subgroup stream (type 0x14: explicit subgroup_id, priority present) with zero-length object",
+      "hex": "1405640340000000",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x14",
+        "track_alias": "5",
+        "group_id": "100",
+        "subgroup_id": "3",
+        "publisher_priority": "64",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "0",
+            "status": "0",
+            "payload_hex": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-no-priority",
+      "description": "subgroup stream (type 0x30: subgroup_id=0, DEFAULT_PRIORITY) with one object",
+      "hex": "3001000004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x30",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-with-extensions",
+      "description": "subgroup stream (type 0x11: properties present) with one object having empty properties",
+      "hex": "11010080000004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x11",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-end-of-group",
+      "description": "subgroup stream (type 0x18: END_OF_GROUP bit set, subgroup_id=0, priority present) with one 4-byte object",
+      "hex": "180105800004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x18",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "end_of_group": true,
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-id-mode-01",
+      "description": "subgroup stream (type 0x12: SUBGROUP_ID_MODE=0b01, subgroup_id equals first object's object_id) with one object",
+      "hex": "120100800504deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x12",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "5",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "5",
+            "object_id": "5",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-first-object-bit",
+      "description": "subgroup stream with FIRST_OBJECT bit (0x40) set — type 0x50, indicates the first object in this stream is the original publisher's first object in the subgroup (new in draft-18)",
+      "hex": "500100800004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x50",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "first_object": true,
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-first-object-and-end-of-group",
+      "description": "subgroup stream with FIRST_OBJECT (0x40) and END_OF_GROUP (0x08) — type 0x58, a complete subgroup containing the whole group's data on one stream",
+      "hex": "580102800002cafe",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x58",
+        "track_alias": "1",
+        "group_id": "2",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "first_object": true,
+        "end_of_group": true,
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-with-object-properties",
+      "description": "subgroup stream (type 0x11: PROPERTIES set), Group 5, with one object, Object ID 1 (Object ID Delta 1), carrying PRIOR_GROUP_ID_GAP=2 and PRIOR_OBJECT_ID_GAP=1. Section 12.8: \"An Object has a Prior Group ID Gap larger than the Group ID.\" That makes the Track malformed (Section 2.4.2). Section 12.9: \"An Object has a Prior Object ID Gap larger than the Object ID.\" Both IDs are at least their gap",
+      "hex": "1101058001043c02020104deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x11",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "1",
+            "object_id": "1",
+            "object_properties": [
+              {
+                "type": "0x3c",
+                "name": "prior_group_id_gap",
+                "value": "2"
+              },
+              {
+                "type": "0x3e",
+                "name": "prior_object_id_gap",
+                "value": "1"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-object-status-end-of-group",
+      "description": "subgroup stream (type 0x10) with a normal object followed by an end-of-group status object (status=3)",
+      "hex": "100100800004deadbeef000003",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x10",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "0",
+            "status": "3",
+            "payload_hex": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-object-status-end-of-track",
+      "description": "subgroup stream (type 0x10) with a single end-of-track status object (status=4)",
+      "hex": "10010080000004",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x10",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "0",
+            "status": "4",
+            "payload_hex": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-properties-two-objects-empty",
+      "description": "subgroup stream (type 0x11: PROPERTIES set) with two objects, each carrying an empty properties blob",
+      "hex": "11010080000004deadbeef000002cafe",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x11",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-properties-two-objects-nonempty",
+      "description": "subgroup stream (type 0x11: PROPERTIES set) with two objects, each carrying a PRIOR_GROUP_ID_GAP property. Both are in Group 5 and carry Prior Group ID Gap 2: Section 12.8 makes the Track malformed when \"A Group contains more than one Object with different values for Prior Group ID Gap.\", so both carry the same value",
+      "hex": "1101058000023c0204deadbeef00023c0202cafe",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x11",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "object_properties": [
+              {
+                "type": "0x3c",
+                "name": "prior_group_id_gap",
+                "value": "2"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "object_properties": [
+              {
+                "type": "0x3c",
+                "name": "prior_group_id_gap",
+                "value": "2"
+              }
+            ],
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-properties-status-object",
+      "description": "subgroup stream (type 0x11: PROPERTIES set), Group 5, with one End of Group status object (status 3) carrying Prior Group ID Gap 1. Section 11.2.1.2: \"If an endpoint receives properties on an Object with status that is not Normal, it MUST close the session with a PROTOCOL_VIOLATION.\"",
+      "hex": "1101058000023c010003",
+      "error": "invalid_value",
+      "error_detail": "only a Normal (0x0) Object may carry Properties",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "reserved-subgroup-id-mode",
+      "description": "subgroup stream header with Type 0x16, whose SUBGROUP_ID_MODE is the reserved 0b11 — must close the session. Section 11.4.2: \"The following Type values are invalid. If an endpoint receives a stream header with any of these Type values, it MUST close the session with a PROTOCOL_VIOLATION: Type values with SUBGROUP_ID_MODE set to 0b11: 0x16, 0x17, 0x1E, 0x1F, 0x36, 0x37, 0x3E, 0x3F, 0x56, 0x57, 0x5E, 0x5F, 0x76, 0x77, 0x7E, 0x7F. This mode is reserved for future use.\" Distinct from a Type outside the defined form, which no table assigns at all; this one is inside the form and separately named invalid. The bytes after the Type are those of the subgroup-single-object vector, which decodes.",
+      "hex": "160100800004deadbeef",
+      "error": "invalid_type",
+      "error_detail": "subgroup stream Type 0x16 sets SUBGROUP_ID_MODE to the reserved 0b11"
+    },
+    {
+      "id": "type-bit-4-clear",
+      "description": "subgroup stream header with Type 0x20, whose bit 4 is clear. Section 11.4.2: \"Type values that do not match the form 0b0XX1XXXX (i.e., Type values outside the ranges 0x10..0x1F, 0x30..0x3F, 0x50..0x5F, and 0x70..0x7F, or values where bit 4 is not set).\" Bit 4 is the one bit every SUBGROUP_HEADER Type sets, so a value without it names no stream this draft assigns, and Section 3.4 is the rule that answers it: \"An endpoint that receives an unknown stream type MUST close the session.\" Draft-20 states bit 4 as a condition on a flags field instead and answers the same byte with invalid_type. The bytes after the Type are those of the subgroup-single-object vector, which decodes.",
+      "hex": "200100800004deadbeef",
+      "error": "unknown_message",
+      "error_detail": "stream Type 0x20 has bit 4 clear and is assigned to nothing"
+    },
+    {
+      "id": "type-above-127",
+      "description": "subgroup stream header whose Type decodes to 144, encoded as the minimal two-byte varint 8090. Section 11.4.2: \"Type values that do not match the form 0b0XX1XXXX (i.e., Type values outside the ranges 0x10..0x1F, 0x30..0x3F, 0x50..0x5F, and 0x70..0x7F, or values where bit 4 is not set).\" Bit 4 is set and SUBGROUP_ID_MODE is 0b00, so the value clears every condition but the form's leading zero, and bit 7 is what puts it outside. Every Type the form admits is below 0x80 and occupies one byte; the width is refused before the value, because narrowing a two-byte field to its low octet would read this as 0x90 and a 0x8010 as an ordinary subgroup header. The bytes after the Type are those of the subgroup-single-object vector, which decodes.",
+      "hex": "80900100800004deadbeef",
+      "error": "unknown_message",
+      "error_detail": "stream Type 144 is outside the form the draft defines"
+    },
+    {
+      "id": "subgroup-truncated",
+      "description": "truncated subgroup header (type 0x10) — missing publisher_priority",
+      "hex": "100100",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading publisher_priority"
+    },
+    {
+      "id": "subgroup-properties-odd-type",
+      "description": "subgroup stream (type 0x11: PROPERTIES set) with one object carrying an odd-typed property 0x0D (two bytes, cafe) and PRIOR_GROUP_ID_GAP=2 (Section 11.2.1.2). An odd Type is followed by a Length and that many bytes (Section 1.4.3); the transport assigns 0x0D nothing, so the entry has no name and its value is the bytes. 0x3C is written as the delta 0x2F from 0x0D, in Group 5. Section 12.8: \"An Object has a Prior Group ID Gap larger than the Group ID.\" That makes the Track malformed (Section 2.4.2), so the Group ID is at least the gap",
+      "hex": "1101058000060d02cafe2f0204deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x11",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "object_properties": [
+              {
+                "type": "0xd",
+                "raw_hex": "cafe"
+              },
+              {
+                "type": "0x3c",
+                "name": "prior_group_id_gap",
+                "value": "2"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-properties-unknown-even-type",
+      "description": "subgroup stream (type 0x11: PROPERTIES set) with one object carrying an even-typed property 0x10 = 5, a Type the transport assigns nothing. An even Type is followed by a single varint value (Section 1.4.3). The entry is kept, without a name",
+      "hex": "110100800002100504deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x11",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "object_properties": [
+              {
+                "type": "0x10",
+                "value": "5"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-properties-repeated-type",
+      "description": "subgroup stream (type 0x11: PROPERTIES set) with one object carrying the odd Type 0x0D twice, first with the byte aa and then with bb. The second is written as a Type delta of 0. The Key-Value-Pair structure (Section 1.4.3) permits a repeated Type, so both entries are kept in wire order",
+      "hex": "1101008000060d01aa0001bb04deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x11",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "object_properties": [
+              {
+                "type": "0xd",
+                "raw_hex": "aa"
+              },
+              {
+                "type": "0xd",
+                "raw_hex": "bb"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-properties-immutable",
+      "description": "subgroup stream (type 0x11: PROPERTIES set) with one object whose only property is Immutable Properties (0x0B, Section 12.7) holding PRIOR_GROUP_ID_GAP=2. Its value is a Key-Value-Pair sequence of its own, whose first Type is a delta from 0 rather than from 0x0B. The contents render as a nested list, in Group 5. Section 12.8: \"An Object has a Prior Group ID Gap larger than the Group ID.\" That makes the Track malformed (Section 2.4.2), so the Group ID is at least the gap",
+      "hex": "1101058000040b023c0204deadbeef",
+      "decoded": {
+        "stream_type": "subgroup",
+        "header_type": "0x11",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "object_properties": [
+              {
+                "type": "0xb",
+                "name": "immutable_properties",
+                "value": [
+                  {
+                    "type": "0x3c",
+                    "name": "prior_group_id_gap",
+                    "value": "2"
+                  }
+                ]
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-properties-overrun",
+      "description": "subgroup stream (type 0x11: PROPERTIES set) whose object declares a 3-byte property block (Section 11.2.1.2), inside which the odd Type 0x0D claims 5 bytes of value with only 1 left. The stream frames; the property does not parse, so the Track is malformed for an endpoint (Sections 12.7, 2.4.2)",
+      "hex": "1101008000030d05ca04deadbeef",
+      "error": "invalid_value",
+      "error_detail": "property 0x0D claims 5 bytes but the property block has 1 left",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "subgroup-prior-group-id-gap-exceeds-group-id",
+      "description": "subgroup stream (type 0x11: PROPERTIES set), Group 1, whose object carries Prior Group ID Gap 2. Section 12.8: \"An Object has a Prior Group ID Gap larger than the Group ID.\" That makes the Track malformed (Section 2.4.2), which an endpoint detects from this Object alone",
+      "hex": "1101018000023c0204deadbeef",
+      "error": "invalid_value",
+      "error_detail": "Prior Group ID Gap 2 is larger than Group ID 1",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "subgroup-prior-group-id-gap-differs",
+      "description": "subgroup stream (type 0x11: PROPERTIES set), Group 5, with two objects carrying Prior Group ID Gap 2 and 3. Section 12.8: \"A Group contains more than one Object with different values for Prior Group ID Gap.\" That makes the Track malformed (Section 2.4.2)",
+      "hex": "1101058000023c0204deadbeef00023c0302cafe",
+      "error": "invalid_value",
+      "error_detail": "two Objects in Group 5 carry different Prior Group ID Gap values",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "subgroup-prior-object-id-gap-exceeds-object-id",
+      "description": "subgroup stream (type 0x11: PROPERTIES set), Group 5, whose Object 0 carries Prior Object ID Gap 1. Section 12.9: \"An Object has a Prior Object ID Gap larger than the Object ID.\" That makes the Track malformed (Section 2.4.2)",
+      "hex": "1101058000023e0104deadbeef",
+      "error": "invalid_value",
+      "error_detail": "Prior Object ID Gap 1 is larger than Object ID 0",
+      "profiles": [
+        "endpoint"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x02",
+  "spec_section": "8.3",
+  "vectors": [
+    {
+      "id": "end-of-group",
+      "description": "datagram status signaling end of group",
+      "decoded": {
+        "stream_type": "object_datagram_status",
+        "track_alias": "1",
+        "group_id": "0",
+        "object_id": "5",
+        "publisher_priority": "128",
+        "object_status": "3"
+      },
+      "hex": "020100058003"
+    },
+    {
+      "id": "end-of-track-and-group",
+      "description": "datagram status signaling end of track and group",
+      "decoded": {
+        "stream_type": "object_datagram_status",
+        "track_alias": "1",
+        "group_id": "10",
+        "object_id": "6",
+        "publisher_priority": "128",
+        "object_status": "4"
+      },
+      "hex": "02010a068004"
+    },
+    {
+      "id": "end-of-track",
+      "description": "datagram status signaling end of track",
+      "decoded": {
+        "stream_type": "object_datagram_status",
+        "track_alias": "1",
+        "group_id": "11",
+        "object_id": "0",
+        "publisher_priority": "128",
+        "object_status": "5"
+      },
+      "hex": "02010b008005"
+    },
+    {
+      "id": "object-does-not-exist",
+      "description": "datagram status signaling object does not exist (status 0x1)",
+      "decoded": {
+        "stream_type": "object_datagram_status",
+        "track_alias": "1",
+        "group_id": "5",
+        "object_id": "7",
+        "publisher_priority": "128",
+        "object_status": "1"
+      },
+      "hex": "020105078001"
+    },
+    {
+      "id": "truncated",
+      "description": "truncated datagram status — missing object_id",
+      "hex": "020100",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading object_id"
+    }
+  ]
+}

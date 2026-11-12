@@ -1,0 +1,72 @@
+{
+  "format": "sluice-scenario",
+  "version": 1,
+  "config": {
+    "enabled": true,
+    "log": {
+      "session": false,
+      "datagram": false,
+      "uni": false,
+      "bidi": false,
+      "previewBytes": 48
+    },
+    "datagram": {
+      "dropRate": 0,
+      "delayMs": 0,
+      "jitterMs": 0,
+      "preserveOrder": true
+    },
+    "stream": {
+      "delayMs": 0,
+      "jitterMs": 0
+    },
+    "wrapLocalBidi": true,
+    "maxDelayedBytes": 8388608,
+    "seed": 42,
+    "rules": [],
+    "timeline": [
+      {
+        "atMs": 10000,
+        "action": {
+          "type": "network",
+          "dropRate": 0.01,
+          "delayMs": 50,
+          "jitterMs": 20
+        }
+      },
+      {
+        "atMs": 30000,
+        "action": {
+          "type": "stall",
+          "durationMs": 5000
+        }
+      },
+      {
+        "atMs": 45000,
+        "action": {
+          "type": "network",
+          "dropRate": 0.1,
+          "delayMs": 300,
+          "jitterMs": 150
+        }
+      },
+      {
+        "atMs": 60000,
+        "action": {
+          "type": "network",
+          "dropRate": 0,
+          "delayMs": 0,
+          "jitterMs": 0
+        }
+      },
+      {
+        "atMs": 90000,
+        "action": {
+          "type": "close-session",
+          "closeCode": 0,
+          "reason": "Closed by the Sluice timeline"
+        }
+      }
+    ]
+  }
+}

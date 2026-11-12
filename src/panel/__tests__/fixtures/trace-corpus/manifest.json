@@ -1,0 +1,591 @@
+{
+  "schema_version": 1,
+  "spec": "moqtrace",
+  "description": "Shared .moqtrace conformance corpus. Every file here is read by both @moqtap/trace and moqtap-trace; files of the same case carry identical content written by different encoders. An implementation that cannot round-trip the corpus is not conformant.",
+  "cases": [
+    {
+      "id": "capture-client-draft16-moq-rs",
+      "description": "A real client-perspective session against cloudflare/moq-rs on draft-16, recorded by `moqtap peek`. Control messages, state changes and annotations, none of it designed to be readable.",
+      "files": [
+        {
+          "name": "capture.moqtrace",
+          "writer": "moqtap CLI, against a third-party relay",
+          "bytes": 961
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-16",
+      "perspective": "client",
+      "detail": "headers",
+      "eventCount": 15,
+      "eventTypes": {
+        "0": 2,
+        "5": 3,
+        "7": 9,
+        "9": 1
+      }
+    },
+    {
+      "id": "capture-client-draft19-imquic",
+      "description": "A real client-perspective session against meetecho/imquic on draft-19 — a C implementation over picoquic, and the newest draft any peer in the interop set speaks.",
+      "files": [
+        {
+          "name": "capture.moqtrace",
+          "writer": "moqtap CLI, against a third-party relay",
+          "bytes": 1145
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-19",
+      "perspective": "client",
+      "detail": "headers",
+      "eventCount": 15,
+      "eventTypes": {
+        "0": 2,
+        "5": 3,
+        "7": 9,
+        "9": 1
+      }
+    },
+    {
+      "id": "capture-observer-draft16-moq-rs",
+      "description": "A real proxy-perspective capture of a subgroup delivery from moq-rs on draft-16, recorded by `moqtap intercept`: 52 object headers on one track, every data event declaring stream 0. A real file in which the stream id keys nothing.",
+      "files": [
+        {
+          "name": "capture.moqtrace",
+          "writer": "moqtap CLI, against a third-party relay",
+          "bytes": 3000
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-14",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 62,
+      "eventTypes": {
+        "0": 4,
+        "1": 2,
+        "2": 1,
+        "3": 52,
+        "7": 3
+      }
+    },
+    {
+      "id": "capture-observer-draft18-moq-rs",
+      "description": "The same against moq-rs on draft-18, recorded before the proxy reported stream IDs: four stream-opened events (both control streams, and one subgroup stream twice) all declaring stream 0, plus an error event. The unified SETUP message type (0x2F00) appears in the two draft-18 observer captures and nowhere else in the corpus.",
+      "files": [
+        {
+          "name": "capture.moqtrace",
+          "writer": "moqtap CLI, against a third-party relay",
+          "bytes": 1391
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-14",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 21,
+      "eventTypes": {
+        "0": 4,
+        "1": 4,
+        "2": 3,
+        "3": 6,
+        "6": 1,
+        "7": 3
+      }
+    },
+    {
+      "id": "capture-observer-draft18-moq-rs-stream-ids",
+      "description": "The same session against moq-rs on draft-18, with stream IDs: SETUP on control streams 2 and 3, SUBSCRIBE and SUBSCRIBE_OK on request stream 0, and two subgroup streams on 7 and 11. Request and control streams have no stream-opened event, since the format has no stream type for them.",
+      "files": [
+        {
+          "name": "capture.moqtrace",
+          "writer": "moqtap CLI, against a third-party relay",
+          "bytes": 1469
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-14",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 27,
+      "eventTypes": {
+        "0": 4,
+        "1": 2,
+        "2": 3,
+        "3": 14,
+        "6": 1,
+        "7": 3
+      }
+    },
+    {
+      "id": "v1-basic",
+      "description": "A version-1 file: only the keys and event types version 1 defined. Readers must accept it — SPEC.md requires both versions — and a reader that rejected it would strand every capture taken before the bump.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 564
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 480
+        }
+      ],
+      "version": 1,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-14",
+      "perspective": "client",
+      "detail": "full",
+      "eventCount": 8,
+      "eventTypes": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1
+      }
+    },
+    {
+      "id": "v2-basic",
+      "description": "A non-segmented version-2 file exercising every event type, with a relay-tap perspective so every event carries \"p\". Timestamps and two identifiers sit past 2^32, where the integer-not-float rule bites.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 939
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 815
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-16",
+      "perspective": "relay-tap",
+      "detail": "full",
+      "eventCount": 12,
+      "eventTypes": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1,
+        "8": 1,
+        "9": 1,
+        "10": 1
+      }
+    },
+    {
+      "id": "v2-control-msg-map",
+      "description": "The three shapes a conforming \"msg\" takes: a populated snake_case map carrying an integer, an integer and a byte string; an empty map for a message the recorder decoded nothing from; and a nested map, because preserving a map has to mean the whole tree. The fourth shape, a \"msg\" that is not a map, needs no case of its own — every capture-* file carries a Rust debug string there.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 293
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 277
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-19",
+      "perspective": "client",
+      "detail": "full",
+      "eventCount": 3,
+      "eventTypes": {
+        "0": 3
+      }
+    },
+    {
+      "id": "v2-datagram-sids",
+      "description": "Two datagrams recorded as SPEC.md requires: each on a \"sid\" of its own from 2^62, shared by its stream-opened, object header and object payload, beside a subgroup stream on stream 7. No QUIC stream ID reaches 2^62, so the ID never names a real stream, and only a reader that keeps identifiers in 64 bits reads them back. The datagrams on \"sid\" 0 in v2-stream-header-bytes and on 12 in v2-headers-level-flow sit below 2^62, which SPEC.md forbids a writer; readers still accept them.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 652
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 464
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-18",
+      "perspective": "observer",
+      "detail": "headers+sizes",
+      "eventCount": 9,
+      "eventTypes": {
+        "1": 3,
+        "3": 3,
+        "4": 3
+      }
+    },
+    {
+      "id": "v2-error-with-raw",
+      "description": "The only file in the corpus where the cap on the \"raw\" key of Event 6 is applied rather than described. Its first error event carries exactly ERROR_RAW_CAP bytes with a \"rawlen\" of 9000: the two numbers disagree, which is the entire mechanism by which a reader learns a capture is partial and by how much. It is also the only case reaching the 16-bit CBOR byte-string length form (0x59 and two bytes) - every other byte string in the corpus is under 256 bytes and takes the 0x58 form, so no other case would catch two encoders disagreeing about the longer prefix. The second error carries no stream and no bytes, which is what the transport-side emission sites produce; the third carries a kind outside the vocabulary this revision names, and a complete capture whose \"rawlen\" equals its own length - the signal meaning not-truncated, which says something only because the first event can say otherwise.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 4544
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 4510
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-19",
+      "perspective": "observer",
+      "detail": "full",
+      "eventCount": 4,
+      "eventTypes": {
+        "1": 1,
+        "6": 3
+      }
+    },
+    {
+      "id": "v2-extra-keys",
+      "description": "Known event types carrying keys no reader knows, and no reader ever will: every key is \"x-\" prefixed, the range SPEC.md reserves for private use, so no revision can claim one and turn this fixture into a test of something else. One value is a nested map holding a byte string, a further map and an array, because preservation has to be structural — a shallow copy passes every flat assertion and loses that one.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 349
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 305
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-19",
+      "perspective": "observer",
+      "detail": "full",
+      "eventCount": 3,
+      "eventTypes": {
+        "1": 1,
+        "3": 1,
+        "6": 1
+      }
+    },
+    {
+      "id": "v2-float-ints",
+      "description": "The v2-basic content with integers past 2^32 written as CBOR float64 — what cbor-x emits by default. SPEC.md requires readers to accept this form because files carrying it exist. JavaScript-authored only: ciborium will not emit it.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 843
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-16",
+      "perspective": "relay-tap",
+      "detail": "full",
+      "eventCount": 12,
+      "eventTypes": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1,
+        "8": 1,
+        "9": 1,
+        "10": 1
+      }
+    },
+    {
+      "id": "v2-header-extra",
+      "description": "The only file in the corpus carrying an unrecognised key in the *header*. Without it the three header stores — the header map, \"segment\" and \"sampling\" — could be deleted outright and every corpus test would stay green, a round trip being a reader checked against its own encoder. \"x-scope\" sits in all three maps with three different values, so a reader that merged them emits the segment private key at the top level and is caught here; \"transport\": 42 reaches a store through the ordinary field path, being a defined key whose value no reader can use; and \"x-scale\" (an integral float) and \"x-blob\" (a byte string under tag 64) are the two shapes SPEC.md requires a writer to normalise inside a store — the one place the two implementations could silently differ, cbor-x being unable to represent either distinction.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 461
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 417
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-19",
+      "perspective": "observer",
+      "detail": "full",
+      "eventCount": 2,
+      "eventTypes": {
+        "1": 1,
+        "3": 1
+      }
+    },
+    {
+      "id": "v2-headers-level-flow",
+      "description": "A headers-level trace where the stream-header identifiers are the only way to group anything: \"sg\" on a subgroup stream, \"fri\" on a fetch, \"g\" on a datagram, and \"ta\" on each. Before those keys a \"headers\" recording could not say which track a stream belonged to, which is most of what the level is for. The three streams share a track alias deliberately — legal, ordinary, and why \"ta\" alone cannot key a flow.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 361
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 264
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-19",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 4,
+      "eventTypes": {
+        "1": 3,
+        "3": 1
+      }
+    },
+    {
+      "id": "v2-msg-absent",
+      "description": "Control messages with no \"msg\" key at all, which SPEC.md forbids a writer to produce. Readers must keep the events regardless: Event 0 is a type sampling MUST NOT drop, so rejecting the omission discards exactly what the format promises to keep. JavaScript-authored only, since neither writer emits it.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 182
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-19",
+      "perspective": "client",
+      "detail": "full",
+      "eventCount": 3,
+      "eventTypes": {
+        "0": 3
+      }
+    },
+    {
+      "id": "v2-segmented",
+      "description": "Three segments of one stream. Segmentation is the sole reason version 2 exists: a version-1 reader decodes the second segment magic as a CBOR byte string and desynchronizes with no way to recover.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 846
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 750
+        }
+      ],
+      "version": 2,
+      "segments": 3,
+      "truncated": false,
+      "protocol": "moq-transport-16",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 6,
+      "eventTypes": {
+        "3": 3,
+        "7": 3
+      }
+    },
+    {
+      "id": "v2-stream-header-bytes",
+      "description": "Event 1 carrying the stream header bytes under \"hdr\", on a draft-18 headers-level trace: a SUBGROUP_HEADER, a fetch header, and a datagram header (its bytes before the payload, with a five-byte varint group past 2^32). On the last stream \"ta\" says 9 while the bytes say 8: the bytes are the evidence, and a reader keeps the event.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 507
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 374
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-18",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 6,
+      "eventTypes": {
+        "1": 4,
+        "3": 2
+      }
+    },
+    {
+      "id": "v2-tag64",
+      "description": "The v2-basic content with byte strings wrapped in RFC 8746 tag 64 — what cbor-x emits unless configured not to. Readers must accept it, for the same reason. JavaScript-authored only.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 951
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-16",
+      "perspective": "relay-tap",
+      "detail": "full",
+      "eventCount": 12,
+      "eventTypes": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1,
+        "8": 1,
+        "9": 1,
+        "10": 1
+      }
+    },
+    {
+      "id": "v2-truncated",
+      "description": "A file that stops mid-event, as a capture killed at the wrong moment does. Readers must report the truncation distinctly and still return everything that decoded before the cut.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 936
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 812
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": true,
+      "protocol": "moq-transport-16",
+      "perspective": "relay-tap",
+      "detail": "full",
+      "eventCount": 11,
+      "eventTypes": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1,
+        "8": 1,
+        "10": 1
+      }
+    },
+    {
+      "id": "v2-unknown-event",
+      "description": "An event type (99) no reader knows, between two it does. It must survive a read-modify-write with its fields intact, or one tool ignorance becomes permanent for everything downstream.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 243
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 219
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-16",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 3,
+      "eventTypes": {
+        "1": 1,
+        "2": 1,
+        "99": 1
+      }
+    },
+    {
+      "id": "v2-unknown-perspective",
+      "description": "A perspective (\"sidecar\") and protocol identifier (\"moq-transport-rfc9999\") outside the sets this revision names. Both may change without a version bump, so both must read.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 223
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 217
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-rfc9999",
+      "perspective": "sidecar",
+      "detail": "headers+sizes",
+      "eventCount": 2,
+      "eventTypes": {
+        "5": 1,
+        "7": 1
+      }
+    }
+  ]
+}

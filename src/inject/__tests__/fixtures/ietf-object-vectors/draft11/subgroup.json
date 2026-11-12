@@ -1,0 +1,484 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x08",
+  "spec_section": "9.4.2",
+  "vectors": [
+    {
+      "id": "subgroup-single-object",
+      "description": "subgroup stream (type 0x08: subgroup_id=0, no extensions) with one object",
+      "hex": "080100800004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "8",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-two-objects",
+      "description": "subgroup stream (type 0x08) with two objects",
+      "hex": "080100800004deadbeef0102cafe",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "8",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id": "1",
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-end-of-group",
+      "description": "subgroup stream (type 0x08) with end-of-group marker (status=3)",
+      "hex": "080100800004deadbeef010003",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "8",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "3",
+            "payload_hex": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-with-extensions",
+      "description": "subgroup stream (type 0x09: extensions present) with one object having empty extensions",
+      "hex": "09010080000004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "9",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-with-populated-extensions",
+      "description": "subgroup stream (type 0x09) with one object carrying 2 extensions (6 bytes total) and a 4-byte payload",
+      "hex": "090100800006022a0302cafe04deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "9",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "extension_headers_length": "6",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-does-not-exist",
+      "description": "subgroup stream where second object signals does-not-exist (status 0x1)",
+      "hex": "080100800004deadbeef010001",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "8",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "1",
+            "payload_hex": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-end-of-track-and-group",
+      "description": "subgroup stream terminated by an End of Track marker (status 0x4) at Group ID 0, Object ID 1, one greater than the largest object on the stream. Draft-11 Section 9.1.1.1 assigns 0x4 to End of Track and defines no separate End of Track and Group status",
+      "hex": "080100800004deadbeef010004",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "8",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "4",
+            "payload_hex": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-end-of-track",
+      "description": "subgroup stream carrying only an End of Track marker (status 0x4) at Group ID 11, Object ID 0 — the encoding draft-11 Section 9.1.1.1 describes as a Group ID one greater than the largest group produced with an Object ID of zero",
+      "hex": "08010b80000004",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "8",
+        "track_alias": "1",
+        "group_id": "11",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "0",
+            "object_status": "4",
+            "payload_hex": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-first-obj-id",
+      "description": "subgroup stream (type 0x0A: subgroup_id = first object ID, no extensions) with one object",
+      "hex": "0a0100800504deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "10",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "5",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "5",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-first-obj-id-extensions",
+      "description": "subgroup stream (type 0x0B: subgroup_id = first object ID, extensions present) with one object",
+      "hex": "0b010080050004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "11",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "5",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "5",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-explicit-subgroup-id",
+      "description": "subgroup stream with explicit subgroup_id (type 0x0C)",
+      "hex": "0c010005800004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "12",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "5",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-explicit-subgroup-id-extensions",
+      "description": "subgroup stream (type 0x0D: explicit subgroup_id, extensions present) with one object",
+      "hex": "0d01000580000004deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "13",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "5",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-truncated",
+      "description": "truncated subgroup header (type 0x08) — missing publisher_priority",
+      "hex": "080100",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading publisher_priority"
+    },
+    {
+      "id": "subgroup-prior-group-id-gap-exceeds-group-id",
+      "description": "subgroup stream (type 0x09: extensions present), Group 1, whose object carries Prior Group ID Gap 2 (Extension Header Type 0x40). Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" The gap is larger than the Group ID, so the track is malformed, which an endpoint detects from this Object alone",
+      "hex": "09010180000340400204deadbeef",
+      "error": "invalid_value",
+      "error_detail": "Prior Group ID Gap 2 is larger than Group ID 1",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "subgroup-prior-group-id-gap-differs",
+      "description": "subgroup stream (type 0x09: extensions present), Group 5, with two objects carrying Prior Group ID Gap 2 and 3 (Extension Header Type 0x40). Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" The values differ within one Group, so the track is malformed",
+      "hex": "09010580000340400204deadbeef010340400302cafe",
+      "error": "invalid_value",
+      "error_detail": "the Objects in Group 5 carry no Prior Group ID Gap value in common",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "subgroup-prior-group-id-gap-twice-in-one-object",
+      "description": "subgroup stream (type 0x09: extensions present), Group 5, whose object carries Prior Group ID Gap 2 and 3 (Extension Header Type 0x40 twice). Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" This draft does not say whether an Object may carry 0x40 more than once, or which value is that Object's when it does (Section 9.1.1.2: \"Object Extension Headers are serialized as Key-Value-Pairs\"). The condition needs more than one Object, so the values one Object carries are not compared with each other, and the track is not malformed",
+      "hex": "09010580000640400240400304deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "9",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "extension_headers_length": "6",
+            "extension_headers": [
+              {
+                "type": "0x40",
+                "value": "2"
+              },
+              {
+                "type": "0x40",
+                "value": "3"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-prior-group-id-gaps-share-a-value",
+      "description": "subgroup stream (type 0x09: extensions present), Group 5, with two objects: the first carries Prior Group ID Gap 2 and 3, the second 2. Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" This draft does not say whether an Object may carry 0x40 more than once, or which value is that Object's when it does (Section 9.1.1.2: \"Object Extension Headers are serialized as Key-Value-Pairs\"). Taking 2 as each Object's makes them equal and another reading makes them differ, so whether the track is malformed is ambiguous; only Objects with no value in common differ under every reading, and the decoder does not refuse this",
+      "hex": "09010580000640400240400304deadbeef010340400202cafe",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "9",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "extension_headers_length": "6",
+            "extension_headers": [
+              {
+                "type": "0x40",
+                "value": "2"
+              },
+              {
+                "type": "0x40",
+                "value": "3"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id": "1",
+            "extension_headers_length": "3",
+            "extension_headers": [
+              {
+                "type": "0x40",
+                "value": "2"
+              }
+            ],
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-prior-group-id-gaps-share-no-value",
+      "description": "subgroup stream (type 0x09: extensions present), Group 5, with two objects: the first carries Prior Group ID Gap 2 and 3, the second 4. Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" Whichever of its values is taken as the first Object's, it differs from the second's, so the track is malformed",
+      "hex": "09010580000640400240400304deadbeef010340400402cafe",
+      "error": "invalid_value",
+      "error_detail": "the Objects in Group 5 carry no Prior Group ID Gap value in common",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "subgroup-prior-group-id-gap-second-exceeds-group-id",
+      "description": "subgroup stream (type 0x09: extensions present), Group 5, whose object carries Prior Group ID Gap 2 and then 6 (Extension Header Type 0x40 twice). Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" This draft does not say whether an Object may carry 0x40 more than once, or which value is that Object's when it does (Section 9.1.1.2: \"Object Extension Headers are serialized as Key-Value-Pairs\"). Taking 6 as the Object's makes its gap larger than the Group ID and taking 2 does not, so whether the track is malformed is ambiguous; only an Object whose every value is larger than the Group ID has a gap larger than it under every reading, and the decoder does not refuse this",
+      "hex": "09010580000640400240400604deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "9",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "extension_headers_length": "6",
+            "extension_headers": [
+              {
+                "type": "0x40",
+                "value": "2"
+              },
+              {
+                "type": "0x40",
+                "value": "6"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-prior-group-id-gaps-common-to-all",
+      "description": "subgroup stream (type 0x09: extensions present), Group 5, with three objects: the first carries Prior Group ID Gap 2 and 3, the second 3 and 4, the third 3. Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" This draft does not say whether an Object may carry 0x40 more than once, or which value is that Object's when it does (Section 9.1.1.2: \"Object Extension Headers are serialized as Key-Value-Pairs\"). Taking 3 as each Object's makes them equal and another reading makes them differ, so whether the track is malformed is ambiguous; only Objects with no value in common differ under every reading, and the decoder does not refuse this",
+      "hex": "09010580000640400240400304deadbeef010640400340400402cafe020340400301aa",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "9",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id": "0",
+            "extension_headers_length": "6",
+            "extension_headers": [
+              {
+                "type": "0x40",
+                "value": "2"
+              },
+              {
+                "type": "0x40",
+                "value": "3"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id": "1",
+            "extension_headers_length": "6",
+            "extension_headers": [
+              {
+                "type": "0x40",
+                "value": "3"
+              },
+              {
+                "type": "0x40",
+                "value": "4"
+              }
+            ],
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          },
+          {
+            "object_id": "2",
+            "extension_headers_length": "3",
+            "extension_headers": [
+              {
+                "type": "0x40",
+                "value": "3"
+              }
+            ],
+            "payload_length": "1",
+            "payload_hex": "aa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subgroup-prior-group-id-gaps-none-common-to-all",
+      "description": "subgroup stream (type 0x09: extensions present), Group 5, with three objects: the first carries Prior Group ID Gap 1 and 2, the second 2 and 3, the third 1 and 3. Section 10.1: \"A track with a Group that contains more than one Object with different values for Prior Group ID Gap or has a Prior Group ID Gap larger than the Group ID is considered malformed.\" Each two of the objects share a value, but no value is carried by all three: whichever of its values is taken as each Object's, two of them differ, so the track is malformed",
+      "hex": "09010580000640400140400204deadbeef010640400240400302cafe020640400140400301aa",
+      "error": "invalid_value",
+      "error_detail": "the Objects in Group 5 carry no Prior Group ID Gap value in common",
+      "profiles": [
+        "endpoint"
+      ]
+    }
+  ]
+}

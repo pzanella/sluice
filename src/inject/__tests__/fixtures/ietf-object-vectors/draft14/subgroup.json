@@ -1,0 +1,519 @@
+{
+  "$schema": "../../../../schema/codec-vector.schema.json",
+  "message_type": "object",
+  "message_type_id": "0x10",
+  "spec_section": "10.4.2",
+  "vectors": [
+    {
+      "id": "type-0x10",
+      "description": "type 0x10 subgroup (subgroupId=0)",
+      "hex": "100100800004deadbeef000000",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "16",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x11",
+      "description": "type 0x11 subgroup (extensions, subgroupId=0)",
+      "hex": "11010080000004deadbeef00000000",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "17",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "extension_headers_length": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "extension_headers_length": "0",
+            "payload_length": "0",
+            "object_status": "0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x12",
+      "description": "type 0x12 subgroup (subgroupId=firstObjId)",
+      "hex": "120100800004deadbeef000000",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "18",
+        "track_alias": "1",
+        "group_id": "0",
+        "publisher_priority": "128",
+        "subgroup_id": "0",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x13",
+      "description": "type 0x13 subgroup (extensions, subgroupId=firstObjId)",
+      "hex": "13010080000004deadbeef00000000",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "19",
+        "track_alias": "1",
+        "group_id": "0",
+        "publisher_priority": "128",
+        "subgroup_id": "0",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "extension_headers_length": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "extension_headers_length": "0",
+            "payload_length": "0",
+            "object_status": "0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x14",
+      "description": "type 0x14 subgroup (explicit-subgroupId)",
+      "hex": "14010003800004deadbeef000000",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "20",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "3",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x15",
+      "description": "type 0x15 subgroup (extensions, explicit-subgroupId)",
+      "hex": "1501000380000004deadbeef00000000",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "21",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "3",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "extension_headers_length": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "extension_headers_length": "0",
+            "payload_length": "0",
+            "object_status": "0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x18",
+      "description": "type 0x18 subgroup (end-of-group, subgroupId=0)",
+      "hex": "180100800004deadbeef000003",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "24",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x19",
+      "description": "type 0x19 subgroup (end-of-group, extensions, subgroupId=0)",
+      "hex": "19010080000004deadbeef00000003",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "25",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "extension_headers_length": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "extension_headers_length": "0",
+            "payload_length": "0",
+            "object_status": "3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x1a",
+      "description": "type 0x1a subgroup (end-of-group, subgroupId=firstObjId)",
+      "hex": "1a0100800004deadbeef000003",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "26",
+        "track_alias": "1",
+        "group_id": "0",
+        "publisher_priority": "128",
+        "subgroup_id": "0",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x1b",
+      "description": "type 0x1b subgroup (end-of-group, extensions, subgroupId=firstObjId)",
+      "hex": "1b010080000004deadbeef00000003",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "27",
+        "track_alias": "1",
+        "group_id": "0",
+        "publisher_priority": "128",
+        "subgroup_id": "0",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "extension_headers_length": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "extension_headers_length": "0",
+            "payload_length": "0",
+            "object_status": "3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x1c",
+      "description": "type 0x1c subgroup (end-of-group, explicit-subgroupId)",
+      "hex": "1c010003800004deadbeef000003",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "28",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "3",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "type-0x1d",
+      "description": "type 0x1d subgroup (end-of-group, extensions, explicit-subgroupId)",
+      "hex": "1d01000380000004deadbeef00000003",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "29",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "3",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "extension_headers_length": "0",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "extension_headers_length": "0",
+            "payload_length": "0",
+            "object_status": "3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "multi-object-mixed-status",
+      "description": "type 0x10 subgroup with multiple objects and mixed statuses",
+      "hex": "10054064400002cafe0000010004deadbeef000004",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "16",
+        "track_alias": "5",
+        "group_id": "100",
+        "subgroup_id": "0",
+        "publisher_priority": "64",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "payload_length": "0",
+            "object_status": "1"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "2",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "3",
+            "payload_length": "0",
+            "object_status": "4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "non-zero-object-id-delta",
+      "description": "type 0x10 subgroup with non-zero object_id_delta (gaps)",
+      "hex": "100100800504deadbeef0202cafe",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "16",
+        "track_alias": "1",
+        "group_id": "0",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "5",
+            "object_id": "5",
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "2",
+            "object_id": "8",
+            "payload_length": "2",
+            "payload_hex": "cafe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-extension-content",
+      "description": "type 0x11 subgroup with Prior Group ID Gap extension header, in Group 5. Section 11.1: \"An Object has a Prior Group ID Gap larger than the Group ID\" That makes the Track malformed (Section 2.5), so the Group ID is at least the gap",
+      "hex": "1101058000023c0204deadbeef",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "17",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "extension_headers_length": "2",
+            "extension_headers": [
+              {
+                "type": "0x3c",
+                "name": "prior_group_id_gap",
+                "value": "2"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "with-extension-content-multi-object",
+      "description": "type 0x11 subgroup with two objects, each carrying a Prior Group ID Gap extension header; second object is status-only. Both are in Group 5 and carry Prior Group ID Gap 2: Section 11.1 makes the Track malformed when \"A Group contains more than one Object with different values for Prior Group ID Gap.\", so both carry the same value",
+      "hex": "1101058000023c0204deadbeef00023c020003",
+      "decoded": {
+        "stream_type": "subgroup_header",
+        "stream_type_id": "17",
+        "track_alias": "1",
+        "group_id": "5",
+        "subgroup_id": "0",
+        "publisher_priority": "128",
+        "objects": [
+          {
+            "object_id_delta": "0",
+            "object_id": "0",
+            "extension_headers_length": "2",
+            "extension_headers": [
+              {
+                "type": "0x3c",
+                "name": "prior_group_id_gap",
+                "value": "2"
+              }
+            ],
+            "payload_length": "4",
+            "payload_hex": "deadbeef"
+          },
+          {
+            "object_id_delta": "0",
+            "object_id": "1",
+            "extension_headers_length": "2",
+            "extension_headers": [
+              {
+                "type": "0x3c",
+                "name": "prior_group_id_gap",
+                "value": "2"
+              }
+            ],
+            "payload_length": "0",
+            "object_status": "3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "truncated",
+      "description": "truncated subgroup — missing group_id",
+      "hex": "1001",
+      "error": "incomplete",
+      "error_detail": "unexpected end of input while reading group_id"
+    },
+    {
+      "id": "subgroup-prior-group-id-gap-exceeds-group-id",
+      "description": "subgroup stream (type 0x11: extensions present), Group 1, whose object carries Prior Group ID Gap 2. Section 11.1: \"An Object has a Prior Group ID Gap larger than the Group ID\" That makes the Track malformed (Section 2.5), which an endpoint detects from this Object alone",
+      "hex": "1101018000023c0204deadbeef",
+      "error": "invalid_value",
+      "error_detail": "Prior Group ID Gap 2 is larger than Group ID 1",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "subgroup-prior-group-id-gap-differs",
+      "description": "subgroup stream (type 0x11: extensions present), Group 5, with two objects carrying Prior Group ID Gap 2 and 3. Section 11.1: \"A Group contains more than one Object with different values for Prior Group ID Gap.\" That makes the Track malformed (Section 2.5)",
+      "hex": "1101058000023c0204deadbeef00023c0302cafe",
+      "error": "invalid_value",
+      "error_detail": "two Objects in Group 5 carry different Prior Group ID Gap values",
+      "profiles": [
+        "endpoint"
+      ]
+    },
+    {
+      "id": "subgroup-prior-object-id-gap-exceeds-object-id",
+      "description": "subgroup stream (type 0x11: extensions present), Group 5, whose Object 0 carries Prior Object ID Gap 1. Section 11.3: \"An Object has a Prior Object ID Gap larger than the Object ID\" That makes the Track malformed (Section 2.5)",
+      "hex": "1101058000023e0104deadbeef",
+      "error": "invalid_value",
+      "error_detail": "Prior Object ID Gap 1 is larger than Object ID 0",
+      "profiles": [
+        "endpoint"
+      ]
+    }
+  ]
+}
