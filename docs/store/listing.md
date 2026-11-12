@@ -86,22 +86,12 @@ Public, all regions. Free.
 
 ## Test instructions
 
-Paste this in **Access / Test instructions**. No account or login is needed.
+Paste this in **Access / Test instructions** (at most 500 characters; this text has 490). Leave the login fields empty.
 
 ```
-No account or login is needed.
-
-Quick check (any site):
-1. Open any https page, for example https://example.com/.
-2. Click the Sluice toolbar button, then Turn on, and accept the permission for that site.
-3. Click Reload page. The popup says "On for this site".
-4. Open DevTools (F12) and the Sluice tab. With no WebTransport on the page, it says how to start.
-
-Full check with WebTransport traffic (local demo in the source repository):
-1. git clone https://github.com/pzanella/sluice && cd sluice
-2. corepack enable && pnpm install && pnpm env:up   (needs Node 22 and Python 3)
-3. Open http://localhost:8080/, turn Sluice on for localhost as above, reload, then click "/moq (moq-lite player)".
-4. The Sluice tab shows the session, its tracks in Monitor and Tracks, and each message in Messages.
-
-Host access is optional and asked one site at a time; nothing runs on other sites. The code is not minified.
+No login needed.
+1. Open https://example.com/, click the Sluice toolbar button, Turn on, accept, Reload page.
+2. Open DevTools > Sluice tab: it says how to start, as the page has no WebTransport.
+With traffic: git clone https://github.com/pzanella/sluice, then pnpm install && pnpm env:up (Node 22, Python 3). Open http://localhost:8080/, turn on as above, click "/moq (moq-lite player)": the tab shows the session, tracks and messages.
+Host access is optional, per site. Code not minified.
 ```
