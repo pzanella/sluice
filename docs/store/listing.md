@@ -46,6 +46,10 @@ Source code, guides and recipes: https://github.com/pzanella/sluice
 | Store icon, 128×128 | `icon-128.png` (96 px art, 16 px padding) |
 | Screenshots, 1280×800 | `screenshot-1-monitor.png`, `screenshot-2-tracks.png`, `screenshot-3-messages.png`, `screenshot-4-rules.png`, `screenshot-5-record.png` |
 | Small promo tile, 440×280 | `promo-small-440x280.png` |
+| Marquee promo tile, 1400×560 | `promo-marquee-1400x560.png` |
+
+The social preview of the GitHub repository (Settings > General > Social preview, 1280×640) is
+`docs/images/social-preview.png`, made by the same command.
 
 **Homepage URL:** https://github.com/pzanella/sluice
 **Support URL:** https://github.com/pzanella/sluice/issues
