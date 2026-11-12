@@ -73,9 +73,10 @@ starts from a string through a `blob:` URL, so it can run inside a worker of the
 `eval` (ADR-14). The panel reads the URL of the inspected page with `chrome.devtools.inspectedWindow.eval('location.href')`, a
 fixed string.
 
-**Data usage:** Sluice reads "Website content" (the WebTransport traffic of the sites the user turns on) only to show it in
-DevTools on the same device. Tick no data type as collected: nothing leaves the browser, and the developer receives nothing.
-Certify that data is not sold, not used for anything other than the single purpose, and not used for credit.
+**Data usage:** Tick **Website content** (Sluice reads and changes the WebTransport traffic of the sites the user turns on)
+and **User activity** (the store names network monitoring as an example). Tick no other type. The data is used only to show it
+in DevTools on the same device: nothing leaves the browser, and the developer receives nothing. Certify that data is not sold,
+not used for anything other than the single purpose, and not used for credit.
 
 **Privacy policy URL:** https://github.com/pzanella/sluice/blob/main/docs/privacy.md
 
@@ -83,10 +84,24 @@ Certify that data is not sold, not used for anything other than the single purpo
 
 Public, all regions. Free.
 
-## Notes for the reviewer
+## Test instructions
+
+Paste this in **Access / Test instructions**. No account or login is needed.
 
 ```
-Sluice is a DevTools extension. To test it: load a page that uses WebTransport (the repository has a local demo: pnpm env:up,
-then http://localhost:8080/), click the Sluice toolbar button, Turn on, Reload page, then open DevTools and the Sluice tab.
-Host access is optional and asked per site; nothing runs on other sites. The code is not minified.
+No account or login is needed.
+
+Quick check (any site):
+1. Open any https page, for example https://example.com/.
+2. Click the Sluice toolbar button, then Turn on, and accept the permission for that site.
+3. Click Reload page. The popup says "On for this site".
+4. Open DevTools (F12) and the Sluice tab. With no WebTransport on the page, it says how to start.
+
+Full check with WebTransport traffic (local demo in the source repository):
+1. git clone https://github.com/pzanella/sluice && cd sluice
+2. corepack enable && pnpm install && pnpm env:up   (needs Node 22 and Python 3)
+3. Open http://localhost:8080/, turn Sluice on for localhost as above, reload, then click "/moq (moq-lite player)".
+4. The Sluice tab shows the session, its tracks in Monitor and Tracks, and each message in Messages.
+
+Host access is optional and asked one site at a time; nothing runs on other sites. The code is not minified.
 ```
