@@ -2,7 +2,7 @@
 
 Current version: **v0.9.1**. Tags follow SemVer (ADR-53). For what each version brought, see [CHANGELOG.md](../CHANGELOG.md).
 
-**Next step:** publish on the Chrome Web Store (a step of the maintainer: developer account, listing from [store/listing.md](store/listing.md)).
+**Next step:** the Chrome Web Store review of v0.9.1 (sent on 2026-11-12). After it: fixes from the first users, then the "Next" list below.
 
 ## Next
 

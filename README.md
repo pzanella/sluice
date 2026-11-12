@@ -1,5 +1,8 @@
 # Sluice
 
+[![CI](https://github.com/pzanella/sluice/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pzanella/sluice/actions/workflows/ci.yml)
+**[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/fmamkdehckmhghaahgcjedmhflcbdkld)**
+
 **See, change and replay the WebTransport and MoQ traffic of your app, inside Chrome, with no proxy.**
 
 ![The Monitor view of Sluice](docs/images/monitor.png)
@@ -24,11 +27,15 @@ Sluice is a Chrome DevTools extension for people who build WebTransport and MoQ 
 It understands **moq-lite 3 to 6** and **IETF MoQT drafts 7 to 23**, with track names for both. Other WebTransport apps work too, as
 datagrams and stream chunks.
 
-> **Status: before the first store release.** Install it from source (2 minutes). Tested on Chromium only.
+> Tested on Chromium only.
 
 ## Install
 
-You need Node 22 or newer and [pnpm](https://pnpm.io/) (`corepack enable` installs it).
+Install Sluice from the [Chrome Web Store](https://chromewebstore.google.com/detail/fmamkdehckmhghaahgcjedmhflcbdkld) (Chrome 119 or newer).
+
+### From source
+
+To try a change or the latest `main`. You need Node 22 or newer and [pnpm](https://pnpm.io/) (`corepack enable` installs it).
 
 ```sh
 pnpm install
