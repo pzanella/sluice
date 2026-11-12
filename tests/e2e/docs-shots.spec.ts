@@ -188,4 +188,32 @@ test('store icon and promo tile', async ({ page }) => {
 ${svg}
 <div><h1>Sluice</h1><p>Monitor, test and replay WebTransport and MoQ traffic in DevTools.</p></div>`);
   await page.screenshot({ path: `${STORE}/promo-small-440x280.png` });
+
+  // Wide banners: the name and summary on the left, the Monitor view on the right, cut by the edge.
+  const monitor = (await readFile(`${STORE}/screenshot-1-monitor.png`)).toString('base64');
+  const banner = async (width: number, height: number, path: string): Promise<void> => {
+    await page.setViewportSize({ width, height });
+    await page.setContent(`<!doctype html>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { position: relative; display: flex; align-items: center; box-sizing: border-box; padding: 0 0 0 ${Math.round(height * 0.14)}px;
+    background: radial-gradient(circle at 20% 30%, #1d2533 0, #111317 60%); color: #e8eaf0; font: 16px/1.45 system-ui, sans-serif; }
+  .text { position: relative; z-index: 1; width: ${Math.round(width * 0.4)}px; }
+  .brand { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+  svg { width: ${Math.round(height * 0.17)}px; height: ${Math.round(height * 0.17)}px; }
+  h1 { margin: 0; font-size: ${Math.round(height * 0.12)}px; letter-spacing: 0.5px; }
+  p { margin: 0 0 14px; color: #b4b8c4; font-size: ${Math.round(height * 0.045)}px; }
+  .tag { color: #8ab4ff; font-size: ${Math.round(height * 0.034)}px; }
+  img { position: absolute; top: ${Math.round(height * 0.14)}px; left: ${Math.round(width * 0.52)}px; height: ${Math.round(height * 0.86)}px;
+    border: 1px solid #2c313c; border-radius: 10px 0 0 0; box-shadow: 0 10px 40px rgb(0 0 0 / 50%); }
+</style>
+<div class="text"><div class="brand">${svg}<h1>Sluice</h1></div>
+<p>Monitor, test and replay WebTransport and MoQ traffic in DevTools.</p>
+<div class="tag">No proxy · No server · Data stays in your browser</div></div>
+<img alt="" src="data:image/png;base64,${monitor}">`);
+    await page.screenshot({ path });
+  };
+  // The Chrome Web Store marquee tile, and the social preview of the repository.
+  await banner(1400, 560, `${STORE}/promo-marquee-1400x560.png`);
+  await banner(1280, 640, `${OUT}/social-preview.png`);
 });
