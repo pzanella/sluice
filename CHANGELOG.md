@@ -2,9 +2,12 @@
 
 All notable changes to this project are written here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/)
-(ADR-53). Nothing is published in a store yet: install from source.
+(ADR-53).
 
 ## [Unreleased]
+
+### Changed
+- The README links to the Chrome Web Store and shows the state of CI.
 
 ## [0.9.1] - 2026-11-12
 
