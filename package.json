@@ -20,6 +20,7 @@
     "env:down": "node test-env/env.mjs down",
     "lint": "eslint .",
     "docs:shots": "SHOTS=1 playwright test tests/e2e/docs-shots.spec.ts",
+    "docs:gif": "GIF=1 playwright test tests/e2e/demo-gif.spec.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -1,11 +1,18 @@
 # Sluice
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/fmamkdehckmhghaahgcjedmhflcbdkld?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=4285F4)](https://chromewebstore.google.com/detail/fmamkdehckmhghaahgcjedmhflcbdkld)
 [![CI](https://github.com/pzanella/sluice/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pzanella/sluice/actions/workflows/ci.yml)
-**[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/fmamkdehckmhghaahgcjedmhflcbdkld)**
 
 **See, change and replay the WebTransport and MoQ traffic of your app, inside Chrome, with no proxy.**
 
-![The Monitor view of Sluice](docs/images/monitor.png)
+![Sluice drops the key frames of a MoQ video track, and the Monitor shows it](docs/images/demo.gif)
+
+**Why Sluice.** Most network tools only show traffic. Sluice also lets you **break it, record it and play it again**, and shows
+**what the player did with it**, all inside the page:
+
+- Test a bad network, a lost key frame or a reconnect with one switch: no proxy, no change on the server.
+- Reproduce a bug with no server: record a session once, play it again as many times as you need.
+- Check the health of the player, not only of the network, and run the same checks in CI with Playwright.
 
 Sluice is a Chrome DevTools extension for people who build WebTransport and MoQ apps, such as a live video player. Open the
 **Sluice** tab in DevTools, start your app, and you can:
@@ -112,6 +119,19 @@ Step by step, with scenario files that you can import: [docs/guide/recipes.md](d
 
 All limits: [docs/limits.md](docs/limits.md).
 
+## What is tested
+
+What each part was checked with, so you know how far to trust it.
+
+| Part | Checked with | Not yet checked |
+|---|---|---|
+| IETF MoQT draft 22: streams and track names | A real server, unit tests | |
+| IETF MoQT drafts 7 to 23: SUBSCRIBE, SUBSCRIBE_OK, objects on streams and datagrams | IETF test vectors, unit tests | Real servers on drafts other than 22; object datagrams with a real server |
+| moq-lite 3 to 6 | The local test server (moq-lite 4), unit tests | |
+| `.moqtrace` files | A shared corpus with captures of real sessions | |
+| Rules, record and replay, Monitor, workers, popup | e2e tests with the extension in Chromium | |
+| Browsers | Chromium 156 | Older Chromium, Firefox, Safari |
+
 ## Commands
 
 | Command | What it does |
@@ -122,6 +142,7 @@ All limits: [docs/limits.md](docs/limits.md).
 | `pnpm test` | Unit tests (Vitest) |
 | `pnpm e2e` | Playwright tests with the extension loaded. Needs Python 3 |
 | `pnpm docs:shots` | Make the screenshots of the docs again, from the real panel and the demo |
+| `pnpm docs:gif` | Make the demo GIF of the README again (needs ffmpeg) |
 | `pnpm lint` / `pnpm typecheck` | ESLint and TypeScript |
 
 ## How it works
