@@ -2,16 +2,22 @@
 
 Current version: **v0.9.1**. Tags follow SemVer (ADR-53). For what each version brought, see [CHANGELOG.md](../CHANGELOG.md).
 
-**Next step:** the Chrome Web Store review of v0.9.1 (sent on 2026-11-12). After it: fixes from the first users, then the "Next" list below.
+**Next step:** the [v1.0 milestone](https://github.com/pzanella/sluice/milestone/1), starting from #6.
 
-## Next
+## v1.0: read the whole protocol
 
-- Notifications (a badge on the tab) when a track stalls or a check fails
-- Compare two recordings or two sessions
-- IETF track names from PUBLISH
-- MoQ object injection, and previews of decoded key frames
+- Read all IETF MoQT control messages (#6)
+- Show the life of each subscription (#7)
+- Show connection stats in the Monitor (#8)
+- Show where an outgoing message comes from (#9)
+- Find key frames in AV1 and VP9 (#10)
 
-## Later
+## After v1.0
 
-- Firefox
-- The setup of `moql` sessions, and moq-lite 7 when it is final
+- **v1.1, work with other tools:** qlog export, tests against several real servers in CI, checks of protocol rules
+- **v1.2, see more at a glance:** a time view of streams and groups, a score of what the viewer saw, previews of decoded key
+  frames, a badge on the tab when a track stalls or a check fails, compare two recordings
+- **v1.3, more real networks:** burst loss, network traces, late or starved tracks, regex rules that cannot hang the page
+- **v1.4, in teams:** a Playwright package and a GitHub Action, a panel that shows more under load
+- **v2.0:** Firefox
+- When final: moq-lite 7, and the setup of `moql` sessions
