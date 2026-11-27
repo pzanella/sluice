@@ -6,8 +6,12 @@ All notable changes to this project are written here. The format follows
 
 ## [Unreleased]
 
+### Added
+- `pnpm docs:gif` makes the demo GIF of the README from the real panel and the local demo.
+
 ### Changed
 - The README links to the Chrome Web Store and shows the state of CI.
+- The README opens with a demo GIF and a short "Why Sluice", and has a table of what each part was tested with.
 
 ## [0.9.1] - 2026-11-12
 
