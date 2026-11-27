@@ -1,7 +1,7 @@
 # Sluice
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/fmamkdehckmhghaahgcjedmhflcbdkld?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=4285F4)](https://chromewebstore.google.com/detail/fmamkdehckmhghaahgcjedmhflcbdkld)
 [![CI](https://github.com/pzanella/sluice/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pzanella/sluice/actions/workflows/ci.yml)
-**[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/fmamkdehckmhghaahgcjedmhflcbdkld)**
 
 **See, change and replay the WebTransport and MoQ traffic of your app, inside Chrome, with no proxy.**
 
